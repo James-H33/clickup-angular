@@ -1,0 +1,15 @@
+
+<div class="simple-sidebar">
+  <div class="simple-sidebar__content">
+    @for (item of itemsWithUrls(); track item.label) {
+      <cu-sidebar-item
+        [icon]="item.icon"
+        [label]="item.label"
+        [isActiveRoute]="item?.isActiveRoute"
+        (clicked)="routeUser(item)">
+      </cu-sidebar-item>
+    }
+    <!-- <a [routerLink]="vm.listViewLink" routerLinkActive="active-link">L</a> -->
+    <!-- <a [routerLink]="vm.boardViewLink" routerLinkActive="active-link">B</a> -->
+  </div>
+</div>

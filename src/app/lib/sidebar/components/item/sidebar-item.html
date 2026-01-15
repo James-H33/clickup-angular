@@ -1,0 +1,12 @@
+<div
+  class="sidebar-item"
+  [class.active]="isActiveRoute()"
+  (click)="clicked.emit()">
+  <div class="sidebar-item__icon">
+    <fa-icon [icon]="icon()"></fa-icon>
+  </div>
+
+  <div class="sidebar-item__label">
+    {{ label() }}
+  </div>
+</div>

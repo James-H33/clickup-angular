@@ -1,0 +1,24 @@
+.sidebar {
+  width: 250px;
+  height: calc(100vh - var(--cu-shell-offset-height));
+  background-color: var(--cu-global-sidebar-background);
+  display: flex;
+  flex-direction: column;
+  padding: var(--cu-size-2);
+  border-top-left-radius: var(--cu-radii-3);
+  border-bottom-left-radius: var(--cu-radii-3);
+  border-right: 1px solid var(--cu-border-default);
+}
+
+.sidebar__header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  h3 {
+    font-size: 18px;
+    color: var(--cu-content-default);
+  }
+}
