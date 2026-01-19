@@ -8,8 +8,8 @@ export const viewsRoutes: Routes = [
     path: '',
     component: ViewsHubComponent,
     children: [
-      { path: 'l', component: ListViewComponent },
-      { path: 'b', component: BoardViewComponent },
+      { path: 'l/:id', component: ListViewComponent },
+      { path: 'b/:id', component: BoardViewComponent },
     ]
   },
 ];

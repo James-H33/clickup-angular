@@ -2,6 +2,19 @@
   <div class="sidebar__header">
     <h3>Spaces</h3>
 
-    <button cuButton cuButtonVariant="outline">+</button>
+    <button cuButton cuButtonVariant="outline" [cdkMenuTriggerFor]="menu">+</button>
+  </div>
+
+  <div class="sidebar__content">
+    <cu-sidebar-tree
+      [tree]="tree()">
+    </cu-sidebar-tree>
   </div>
 </div>
+
+<ng-template #menu>
+  <cu-sidebar-create-space
+    (created)="onCreateSpace($event)"
+    cdkMenu>
+  </cu-sidebar-create-space>
+</ng-template>

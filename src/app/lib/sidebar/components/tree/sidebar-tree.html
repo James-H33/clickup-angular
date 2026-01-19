@@ -1,0 +1,7 @@
+<div class="sidebar-tree">
+  @for (item of tree(); track item.id) {
+    <cu-sidebar-tree-item
+      [item]="item">
+    </cu-sidebar-tree-item>
+  }
+</div>

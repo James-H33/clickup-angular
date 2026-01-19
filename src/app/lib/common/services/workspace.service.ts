@@ -1,9 +1,10 @@
-import { inject, Injectable } from "@angular/core";
+import { DestroyRef, inject, Injectable } from "@angular/core";
 import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router } from "@angular/router";
 import { WORKSPACE_ID } from "../types/workspace-id.const";
 import { filter } from "rxjs/internal/operators/filter";
 import { loadWorkspaceId } from "../store/workspace/workspace.actions";
 import { Store } from "@ngrx/store";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Injectable({
   providedIn: 'root'
@@ -12,15 +13,15 @@ export class WorkspaceService {
   store = inject(Store);
   routeSnapshot = inject(ActivatedRoute);
   router = inject(Router);
+  private destroyRef = inject(DestroyRef)
 
   init(): void {
-    // Listen for route changes if needed
     this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe((event) => {
-        console.log('Route event:', event);
+      .subscribe(() => {
         this.store.dispatch(loadWorkspaceId());
       });
   }
@@ -28,8 +29,6 @@ export class WorkspaceService {
   getWorkspaceId(): string | null {
     const routeSnapshot: ActivatedRouteSnapshot = this.routeSnapshot.snapshot;
     const idFromUrl = routeSnapshot.paramMap.get(WORKSPACE_ID);
-
-    console.log('Workspace ID from URL:', idFromUrl);
 
     if (idFromUrl) {
       return idFromUrl;

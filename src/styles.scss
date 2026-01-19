@@ -1267,6 +1267,22 @@ body {
   --cu-elevation-border-5: 0 0 1px 0 var(--cu-alphaGrey700), 0 20px 25px -5px rgba(0, 0, 0, 0.15),
     0 8px 10px -6px rgba(0, 0, 0, 0.15);
 
+  --cu-background-primary: var(--cu-purple800);
+  --cu-background-primary-hover: var(--cu-purple900);
+  --cu-background-primary-dark: var(--cu-purple800);
+  --cu-content-primary: var(--cu-purple1000);
+  --cu-border-primary: var(--cu-purple800);
+  --cu-border-primary-focus: var(--cu-purple900);
+  --cu-effect-primary: var(--cu-purple600-16);
+  --cu-link-primary: var(--cu-purple800);
+  --cu-link-primary-hover: var(--cu-purple900);
+  --cu-background-primary-pressed: var(--cu-purple1000);
+  --cu-background-primary-disabled: var(--cu-purple700);
+  --cu-background-primary-subtle: var(--cu-purple200);
+  --cu-background-primary-on-subtle: var(--cu-purple300);
+  --cu-background-primary-on-subtle-hover: var(--cu-purple400);
+  --cu-border-primary-low-contrast: var(--cu-purple400);
+
 
   --cu-simple-bar-v4-background: linear-gradient(180deg, var(--cu-purple1000) 0%, var(--cu-purple1100) 100%);
   --cu-global-sidebar-background: var(--cu-grey100);

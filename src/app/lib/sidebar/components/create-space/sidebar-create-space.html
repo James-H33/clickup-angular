@@ -1,0 +1,20 @@
+<div class="sidebar-create-space">
+  <div class="sidebar-create-space__title">Create space</div>
+
+  <div class="sidebar-create-space__form">
+    <input
+      type="text"
+      placeholder="Enter space name"
+      class="sidebar-create-space__input"
+      #nameInput
+      (keyup.enter)="createSpace(nameInput)"
+    />
+
+    <button
+      cuButton
+      cuButtonVariant="primary"
+      (click)="createSpace(nameInput)">
+      Create
+    </button>
+  </div>
+</div>
