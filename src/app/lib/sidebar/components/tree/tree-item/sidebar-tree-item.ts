@@ -12,6 +12,7 @@ import { getHierarchyLinkByType } from "@common/utils/get-hierarchy-link-by-type
 })
 export class SidebarTreeItem {
   item = input<HierarchyItem>();
+  isActive = input<boolean>();
 
   routerLink = computed(() => {
     const item = this.item();

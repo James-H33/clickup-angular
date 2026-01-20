@@ -24,7 +24,7 @@ export const createDummySpace = (
       createDummyList('Backlog', id),
     ],
     views: [
-      createDummyView('Space View 1', id),
+      createDummyView('Space 1', id, ViewType.LIST),
     ],
   };
 }
@@ -40,17 +40,23 @@ export const createDummyList = (name: string, parentId?: string): HierarchyItem 
     parentId,
     children: [],
     views: [
-      createDummyView('List View 1', id)
+      createDummyView('List 1', id, ViewType.LIST),
+      createDummyView('Board 1', id, ViewType.BOARD),
     ],
   };
 }
 
-export const createDummyView = (name: string, parentId?: string): ViewItem => {
+export const createDummyView = (
+  name: string,
+  parentId?: string,
+  type: ViewType = ViewType.LIST,
+): ViewItem => {
+
   return {
     id: makeId(),
-    name: name || 'List View 1',
+    name: name || 'View 1',
     color: generateRandomColor(),
-    type: ViewType.LIST,
+    type,
     parentId
   };
 }

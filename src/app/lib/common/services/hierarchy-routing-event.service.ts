@@ -1,8 +1,9 @@
 import { DestroyRef, inject, Injectable } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { NavigationEnd, Router } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { setHierarchyFromRoutingEventStart } from "@common/store/hierarchy/hierarchy.actions";
 import { Store } from "@ngrx/store";
+import { combineLatest } from "rxjs";
 import { filter } from "rxjs/operators";
 
 @Injectable({
@@ -11,7 +12,9 @@ import { filter } from "rxjs/operators";
 export class HierarchyRoutingEventService {
   router = inject(Router);
   store = inject(Store);
+  routeSnapshot = inject(ActivatedRoute);
   destroyRef = inject(DestroyRef);
+
 
  init(): void {
     this.router.events

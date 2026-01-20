@@ -9,7 +9,7 @@ import {
 import { Store } from "@ngrx/store";
 import { createSpaceStart } from "@common/store/hierarchy/hierarchy.actions";
 import { SidebarTree } from "../tree/sidebar-tree";
-import { selectFlattenedTree, selectTree } from "@common/store/hierarchy/hierarchy.selectors";
+import { selectCurrentListId, selectCurrentSpaceId, selectCurrentViewId, selectFlattenedTree, selectTree } from "@common/store/hierarchy/hierarchy.selectors";
 
 @Component({
   selector: 'cu-sidebar',
@@ -29,6 +29,8 @@ export class SidebarComponent {
 
   tree = this.store.selectSignal(selectTree);
   flattenedTree = this.store.selectSignal(selectFlattenedTree);
+  currentSpaceId = this.store.selectSignal(selectCurrentSpaceId);
+  currentListId = this.store.selectSignal(selectCurrentListId);
 
   constructor() {
     effect(() => {

@@ -9,6 +9,15 @@ export const loadWorkspaceIdSuccess = createAction(
   props<{ workspaceId: string }>()
 );
 
+export const loadWorkspaceStart = createAction(
+  '[Workspace] Load Workspace',
+  props<{ id: string }>()
+);
+
+export const loadWorkspaceSuccess = createAction(
+  '[Workspace] Load Workspace Success',
+);
+
 export const setWorkspaceId = createAction(
   '[Workspace] Set Workspace ID',
   props<{ workspaceId: string }>()

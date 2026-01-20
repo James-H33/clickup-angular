@@ -27,7 +27,7 @@ export class ShellComponent {
 
   ngOnInit(): void {
     this.workspaceService.init();
-    this.store.dispatch(loadTreeStart());
+    // this.store.dispatch(loadTreeStart());
     this.hierarchyRoutingEventService.init();
   }
 }

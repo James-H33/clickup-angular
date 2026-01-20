@@ -28,5 +28,5 @@ export const setHierarchyFromRoutingEventStart = createAction(
 
 export const setHierarchyFromRoutingEventSuccess = createAction(
   '[Hierarchy] Set Hierarchy From Routing Event Success',
-  props<{ hierarchy?: HierarchyItem[] }>()
+  props<{ currentViewId: string }>()
 );

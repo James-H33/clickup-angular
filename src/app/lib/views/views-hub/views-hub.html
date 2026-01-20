@@ -3,15 +3,18 @@
     <div class="views-hub__title">Development</div>
 
     <div class="views-hub__views">
-      <button cuButtonIcon cuButtonIconSize="small" class="active">
-        <fa-icon [icon]="faChartBar"></fa-icon>
-        List
-      </button>
+      @for (view of viewsFromList(); track view.id) {
+        <button
+          cuButtonIcon
+          cuButtonIconSize="small"
+          [class.active]="view.id === 'list'">
+          <fa-icon [icon]="faChartBar"></fa-icon>
 
-      <button cuButtonIcon cuButtonIconSize="small">
-        <fa-icon [icon]="faChartBar"></fa-icon>
-        Board
-      </button>
+          <div class="views-hub__view-name">
+            {{ view.name }}
+          </div>
+        </button>
+      }
     </div>
   </div>
 

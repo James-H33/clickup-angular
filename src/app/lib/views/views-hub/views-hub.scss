@@ -12,8 +12,16 @@
   gap: var(--8px);
 
   button[cuButtonIcon]  {
+    max-width: 100px;
+
     &.active {
       background-color: var(--cu-background-on-main);
     }
+  }
+
+  .views-hub__view-name {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 }

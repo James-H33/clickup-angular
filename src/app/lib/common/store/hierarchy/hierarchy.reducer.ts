@@ -1,15 +1,13 @@
 import { HierarchyItem } from "@common/types/hierarchy-item.model";
 import { createFeature, createReducer, on } from "@ngrx/store";
-import { createSpaceSuccess, loadTreeSuccess } from "./hierarchy.actions";
+import { createSpaceSuccess, loadTreeSuccess, setHierarchyFromRoutingEventSuccess } from "./hierarchy.actions";
 
 export interface HierarchyState {
-  currentSpaceId: string | null;
   currentViewId: string | null;
   tree: HierarchyItem[];
 }
 
 const initialState: HierarchyState = {
-  currentSpaceId: null,
   currentViewId: null,
   tree: [],
 }
@@ -26,6 +24,11 @@ export const hierarchyFeature = createFeature({
     on(createSpaceSuccess, (state, { space }) => ({
       ...state,
       tree: [...state.tree, space],
+    })),
+
+    on(setHierarchyFromRoutingEventSuccess, (state, { currentViewId }) => ({
+      ...state,
+      currentViewId,
     })),
   ),
 })

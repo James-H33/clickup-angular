@@ -1,4 +1,4 @@
-<div class="sidebar-tree-item">
+<div class="sidebar-tree-item" [class.sidebar-tree-item--active]="isActive()">
   <a
     class="sidebar-tree-item__link"
     [routerLink]="routerLink()">
@@ -11,4 +11,8 @@
     class="sidebar-tree-item__menu">
     ...
   </button>
+</div>
+
+<div class="sidebar-tree-item__children">
+  <ng-content></ng-content>
 </div>
