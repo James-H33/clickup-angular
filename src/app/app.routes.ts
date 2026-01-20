@@ -20,7 +20,7 @@ export const routes: Routes = [
   },
   {
     path: ':workspaceId',
-    // canActivate: [WorkspaceRedirectGuard],
+    // canActivate: [WorkspaceAuthenticationGuard],
     loadChildren: () => import('./lib/shell/shell.routes').then(m => m.shellRoutes)
   },
 ];

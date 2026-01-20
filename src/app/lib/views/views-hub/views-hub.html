@@ -1,2 +1,24 @@
-<h1>Views Hub</h1>
-<router-outlet></router-outlet>
+<div class="views-hub">
+  <div class="views-hub__header">
+    <div class="views-hub__title">Development</div>
+
+    <div class="views-hub__views">
+      @for (view of viewsFromList(); track view.id) {
+        <button
+          cuButtonIcon
+          cuButtonIconSize="small"
+          [class.active]="view.id === 'list'">
+          <fa-icon [icon]="faChartBar"></fa-icon>
+
+          <div class="views-hub__view-name">
+            {{ view.name }}
+          </div>
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="views-hub__content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

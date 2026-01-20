@@ -1,0 +1,28 @@
+.sidebar-tree-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--cu-size-1) var(--cu-size-1);
+  border-radius: var(--cu-radii-3);
+  margin-bottom: var(--cu-size-1);
+
+  &--active {
+    background-color: #f0f0f0;
+  }
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+}
+
+.sidebar-tree-item__link {
+  display: block;
+  padding: var(--cu-size-1) var(--cu-size-1);
+  text-decoration: none;
+  color: var(--cu-content-secondary);
+  font-size: 14px;
+}
+
+.sidebar-tree-item__children {
+  margin-left: var(--cu-size-4);
+}

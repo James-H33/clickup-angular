@@ -1,9 +1,11 @@
-import { inject, Injectable } from "@angular/core";
+import { DestroyRef, inject, Injectable } from "@angular/core";
 import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router } from "@angular/router";
 import { WORKSPACE_ID } from "../types/workspace-id.const";
 import { filter } from "rxjs/internal/operators/filter";
-import { loadWorkspaceId } from "../store/workspace/workspace.actions";
+import { loadWorkspaceStart } from "../store/workspace/workspace.actions";
 import { Store } from "@ngrx/store";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { combineLatest, distinctUntilChanged, map, Subject, tap } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -12,24 +14,37 @@ export class WorkspaceService {
   store = inject(Store);
   routeSnapshot = inject(ActivatedRoute);
   router = inject(Router);
+  private destroyRef = inject(DestroyRef)
+
+  private workspaceId: string | null = null;
 
   init(): void {
-    // Listen for route changes if needed
     this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
+        map(() => this.getWorkspaceId()),
+        distinctUntilChanged((prev, curr) => prev === curr || curr === this.workspaceId),
+        takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe((event) => {
-        console.log('Route event:', event);
-        this.store.dispatch(loadWorkspaceId());
+      .subscribe((id) => {
+        this.workspaceId = id as string;
+        this.loadWorkspace(this.workspaceId);
       });
+
+    // Initial load
+    const initialId = this.getWorkspaceId();
+
+    console.log('Initial Workspace ID:', initialId);
+
+    if (initialId) {
+      this.workspaceId = initialId;
+      this.loadWorkspace(this.workspaceId);
+    }
   }
 
   getWorkspaceId(): string | null {
     const routeSnapshot: ActivatedRouteSnapshot = this.routeSnapshot.snapshot;
     const idFromUrl = routeSnapshot.paramMap.get(WORKSPACE_ID);
-
-    console.log('Workspace ID from URL:', idFromUrl);
 
     if (idFromUrl) {
       return idFromUrl;
@@ -42,5 +57,9 @@ export class WorkspaceService {
     }
 
     return null;
+  }
+
+  private loadWorkspace(id: string): void {
+    this.store.dispatch(loadWorkspaceStart({ id }));
   }
 }

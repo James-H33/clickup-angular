@@ -1,0 +1,14 @@
+<div class="sidebar-tree">
+  @for (item of tree(); track item.id) {
+    <cu-sidebar-tree-item
+      [isActive]="item.id === spaceId()"
+      [item]="item">
+      @for (childItem of item.children; track childItem.id) {
+        <cu-sidebar-tree-item
+          [isActive]="childItem.id === listId()"
+          [item]="childItem">
+        </cu-sidebar-tree-item>
+      }
+    </cu-sidebar-tree-item>
+  }
+</div>

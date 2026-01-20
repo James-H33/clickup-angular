@@ -1,0 +1,27 @@
+.views-hub__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--12px);
+  padding: var(--8px);
+  border-bottom: 1px solid var(--cu-border-default);
+  border-radius: 0 var(--cu-radii-4) 0 0;
+}
+
+.views-hub__views {
+  display: flex;
+  gap: var(--8px);
+
+  button[cuButtonIcon]  {
+    max-width: 100px;
+
+    &.active {
+      background-color: var(--cu-background-on-main);
+    }
+  }
+
+  .views-hub__view-name {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}

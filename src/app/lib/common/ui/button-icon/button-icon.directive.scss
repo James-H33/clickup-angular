@@ -1,4 +1,4 @@
-button[cuButton] {
+button[cuButtonIcon] {
   height: var(--32px);
   background-color: transparent;
   color: var(--cu-content-secondary);
@@ -7,29 +7,40 @@ button[cuButton] {
   border-radius: var(--cu-radii-2-5);
   cursor: pointer;
 
-  &[cuButtonSize="compact"] {
+  display: flex;
+  align-items: center;
+  gap: var(--2px);
+
+  // fa-icon {
+  //   background: #74c074;
+  //   color: white;
+  //   padding: 2px;
+  //   border-radius: 2px;
+  // }
+
+  &[cuButtonIconSize="compact"] {
     height: var(--28px);
     padding-inline: 7px;
     border-radius: var(--cu-radii-3-5);
     font-size: 12px;
   }
 
-  &[cuButtonSize="small"] {
+  &[cuButtonIconSize="small"] {
     height: var(--24px);
     font-size: 12px;
   }
 
-  &[cuButtonSize="xsmall"] {
+  &[cuButtonIconSize="xsmall"] {
     height: var(--18px);
     font-size: 10px;
   }
 
-  &[cuButtonVariant="outline"] {
+  &[cuButtonIconVariant="outline"] {
     border: 1px solid var(--cu-border-default);
     background-color: var(--cu-background-main);
   }
 
-  &[cuButtonVariant="primary"] {
+  &[cuButtonIconVariant="primary"] {
     color: var(--cu-background-main);
     background-color: var(--cu-main-theme-color);
 

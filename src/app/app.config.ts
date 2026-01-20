@@ -6,6 +6,7 @@ import { RedirectService } from './lib/guards/redirect/redirect.service';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { WorkspaceStoreModule } from './lib/common/store/workspace/workspace-store.module';
+import { HierarchyStoreModule } from '@common/store/hierarchy/hierarchy-store.module';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,6 +21,7 @@ export const appConfig: ApplicationConfig = {
     // Modules Imports
     importProvidersFrom([
       WorkspaceStoreModule,
+      HierarchyStoreModule,
     ]),
   ]
 };
