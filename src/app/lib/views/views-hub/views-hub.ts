@@ -38,28 +38,6 @@ export class ViewsHubComponent {
     return list || space;
   })
 
-  // viewsFromList = computed(() => {
-  //   const list = this.currentList();
-
-  //   if (!list || !list.views) {
-  //     return [];
-  //   }
-
-  //   return list.views;
-  // })
-
-  // viewsFromListWithUrls = computed(() => {
-  //   const views = this.viewsFromList();
-  //   const workspaceId = this.workspaceId();
-  //   const currentViewId = this.store.selectSignal(selectCurrentViewId)();
-
-  //   return views.map(view => ({
-  //     ...view,
-  //     url: getViewLinkByType(view.type, view.id, workspaceId as string),
-  //     isActive: view.id === currentViewId
-  //   }));
-  // })
-
   viewsFromHierarchyItemWithUrls = computed(() => {
     const item = this.hiherarchyItem();
     const views = item?.views || [];
