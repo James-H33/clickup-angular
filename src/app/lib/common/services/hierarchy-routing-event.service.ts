@@ -23,7 +23,6 @@ export class HierarchyRoutingEventService {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((event) => {
-        console.log('NavigationEnd event:', event);
         this.store.dispatch(
           setHierarchyFromRoutingEventStart({ event: event as NavigationEnd }),
         );

@@ -5,12 +5,19 @@
     {{ item()?.name }}
   </a>
 
-  <button
-    cuButton
-    cuButtonSize="xsmall"
-    class="sidebar-tree-item__menu">
-    ...
-  </button>
+  <cu-sidebar-context-menu>
+    <button
+      contextTrigger
+      cuButton
+      cuButtonSize="xsmall"
+      class="sidebar-tree-item__menu">
+      ...
+    </button>
+
+    <div contextMenu>
+      <h2>Hello Menu</h2>
+    </div>
+  </cu-sidebar-context-menu>
 </div>
 
 <div class="sidebar-tree-item__children">

@@ -43,7 +43,7 @@ button[cuButton] {
   }
 
   &:active, &:focus {
-    border-color: var(--cu-border-active);
     outline: none;
+    background-color: var(--cu-background-on-main);
   }
 }

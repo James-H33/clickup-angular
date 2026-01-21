@@ -2,6 +2,8 @@ import { createSelector } from "@ngrx/store";
 import { hierarchyFeature } from "./hierarchy.reducer";
 import { HierarchyItem } from "@common/types/hierarchy-item.model";
 import { ViewItem } from "@common/types/view-item.model";
+import { HierarchyType } from "@common/types/hierarchy-type.enum";
+import { getHierarchyItemByTypeBasedOnView } from "./utils/get-hierarchy-item-by-type-based-on-view.function";
 
 export const {
   selectHierarchyState,
@@ -78,14 +80,12 @@ export const selectCurrentSpace = createSelector(
   selectViewsMap,
   selectCurrentViewId,
   (tree, viewsMap, currentViewId) => {
-    if (!currentViewId) {
-      return null;
-    }
-
-    const listId  = viewsMap[currentViewId]?.parentId as string;
-    const spaceId = tree[listId]?.parentId as string;
-
-    return tree[spaceId] || null;
+    return getHierarchyItemByTypeBasedOnView(
+      tree,
+      viewsMap,
+      currentViewId,
+      HierarchyType.SPACE
+    );
   }
 );
 
@@ -94,13 +94,12 @@ export const selectCurrentList = createSelector(
   selectViewsMap,
   selectCurrentViewId,
   (tree, viewsMap, currentViewId) => {
-    if (!currentViewId) {
-      return null;
-    }
-
-    const listId = viewsMap[currentViewId]?.parentId as string;
-
-    return tree[listId] || null;
+     return getHierarchyItemByTypeBasedOnView(
+      tree,
+      viewsMap,
+      currentViewId,
+      HierarchyType.LIST
+    );
   }
 );
 

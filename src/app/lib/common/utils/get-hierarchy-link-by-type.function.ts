@@ -1,18 +1,25 @@
 import { HierarchyItem } from "@common/types/hierarchy-item.model";
+import { HierarchyType } from "@common/types/hierarchy-type.enum";
 
 export const getHierarchyLinkByType = (item: HierarchyItem): string => {
   switch (item.type) {
-    case 'space': {
-      const firstList = item.children?.find(child => child.type === 'list');
-      const firstView = firstList?.views[0];
+    case HierarchyType.SPACE: {
+      const firstSpaceView = item?.views[0];
 
-      if (firstView && firstList) {
-        return `v/l/${firstView.id}`;
+      if (firstSpaceView) {
+        return `v/l/${firstSpaceView.id}`;
+      }
+
+      const firstList = item.children?.find(child => child.type === HierarchyType.LIST);
+      const firstListView = firstList?.views[0];
+
+      if (firstListView) {
+        return `v/l/${firstListView.id}`;
       }
 
       return `v/${item.id}`;
     }
-    case 'list': {
+    case HierarchyType.LIST: {
       const firstView = item.views[0];
 
       if (firstView) {

@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from "@angular/core";
-import { RouterOutlet } from "@angular/router";
-import { selectCurrentList, selectCurrentView, selectCurrentViewId } from "@common/store/hierarchy/hierarchy.selectors";
+import { RouterLink, RouterOutlet } from "@angular/router";
+import { selectCurrentList, selectCurrentSpace, selectCurrentView, selectCurrentViewId } from "@common/store/hierarchy/hierarchy.selectors";
+import { selectWorkspaceId } from "@common/store/workspace/workspace.selectors";
 import { ButtonIconModule } from "@common/ui/button-icon/button-icon.module";
 import { ButtonModule } from "@common/ui/button/button.module";
+import { getViewLinkByType } from "@common/utils/get-view-link-by-type.function";
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { faChartBar } from "@fortawesome/free-regular-svg-icons";
 import { Store } from "@ngrx/store";
@@ -16,23 +18,34 @@ import { Store } from "@ngrx/store";
     RouterOutlet,
     ButtonModule,
     ButtonIconModule,
-    FaIconComponent
+    FaIconComponent,
+    RouterLink
 ],
 })
 export class ViewsHubComponent {
   private store = inject(Store);
 
   faChartBar = faChartBar;
+  workspaceId = this.store.selectSignal(selectWorkspaceId);
   currentView = this.store.selectSignal(selectCurrentView);
   currentList = this.store.selectSignal(selectCurrentList);
+  currentSpace = this.store.selectSignal(selectCurrentSpace);
 
-  viewsFromList = computed(() => {
+  hiherarchyItem = computed(() => {
     const list = this.currentList();
+    const space = this.currentSpace();
 
-    if (!list || !list.views) {
-      return [];
-    }
+    return list || space;
+  })
 
-    return list.views;
+  viewsFromHierarchyItemWithUrls = computed(() => {
+    const item = this.hiherarchyItem();
+    const views = item?.views || [];
+
+    return views.map(view => ({
+      ...view,
+      url: getViewLinkByType(view.type, view.id, this.workspaceId() as string),
+      isActive: view.id === this.store.selectSignal(selectCurrentViewId)()
+    }));
   })
 }

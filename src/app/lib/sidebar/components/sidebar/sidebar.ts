@@ -32,14 +32,6 @@ export class SidebarComponent {
   currentSpaceId = this.store.selectSignal(selectCurrentSpaceId);
   currentListId = this.store.selectSignal(selectCurrentListId);
 
-  constructor() {
-    effect(() => {
-      const flattenedTree = this.flattenedTree();
-
-      console.log('Flattened Tree:', flattenedTree);
-    });
-  }
-
   onCreateSpace(event: { name: string }) {
     this.store.dispatch(
       createSpaceStart({ name: event.name }),
