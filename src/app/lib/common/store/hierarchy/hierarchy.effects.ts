@@ -6,8 +6,13 @@ import { map, switchMap, tap } from "rxjs/operators";
 import { loadWorkspaceSuccess } from "../workspace/workspace.actions";
 import { createDummySpace } from "./fake-data-helpers/fake-data-helpers";
 import { createSpaceStart, createSpaceSuccess, loadTreeStart, loadTreeSuccess, setHierarchyFromRoutingEventStart, setHierarchyFromRoutingEventSuccess } from "./hierarchy.actions";
-import { ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 import { HierarchyItem } from "@common/types/hierarchy-item.model";
+import { concatLatestFrom } from "@ngrx/operators"
+import { selectTree } from "./hierarchy.selectors";
+import { selectWorkspaceId } from "../workspace/workspace.selectors";
+import { getViewLinkByType } from "@common/utils/get-view-link-by-type.function";
+import { ViewType } from "@common/types/view-type.enum";
 
 const treeStorageKey = 'clickup_hierarchy_tree';
 
@@ -30,7 +35,6 @@ function loadHierarchy(): HierarchyItem[] {
   const storedTree = getTreeFromLocalStorage();
 
   if (storedTree) {
-    console.log('Loaded hierarchy from localStorage:', storedTree);
     return storedTree;
   }
 
@@ -54,7 +58,6 @@ export const loadHierarchy$ = createEffect((
 
       return of(tree).pipe(
         map(hierarchy => {
-          console.log('Loaded hierarchy:', hierarchy);
           return loadTreeSuccess({ hierarchy })
         }),
       )
@@ -84,8 +87,6 @@ export const setHierarchyFromRoutingEvent$ = createEffect((
     map((action) => {
       const viewId = action.event.url.split('/').pop();
 
-      console.log('Setting hierarchy from routing event, viewId:', viewId);
-
       return setHierarchyFromRoutingEventSuccess({
         currentViewId: viewId ?? '',
       });
@@ -104,7 +105,6 @@ export const loadTreeForWorkspaceChange$ = createEffect((
 
       return of(tree).pipe(
         map(hierarchy => {
-          console.log('Loaded hierarchy:', hierarchy);
           return loadTreeSuccess({ hierarchy })
         }),
       )
@@ -120,9 +120,62 @@ export const updateActiveViewOnLoadTreeSuccess$ = createEffect((
     map(() => {
       const viewId = window.location.pathname.split('/').pop() || '';
 
-      console.log('After loading tree, setting current view ID to:', viewId);
-
       return setHierarchyFromRoutingEventSuccess({ currentViewId: viewId });
     }),
   );
 }, { functional: true });
+
+export const redirectToSpaceAfterCreation$ = createEffect((
+  $actions = inject(Actions),
+  store = inject(Store),
+  router = inject(Router),
+) => {
+  return $actions.pipe(
+    ofType(createSpaceSuccess),
+    concatLatestFrom(() => [
+      store.select(selectWorkspaceId),
+    ]),
+    tap(([{ space }, workspaceId]) => {
+      const firstView = space.views?.[0];
+
+      if (!firstView) {
+        console.error('No views found for the new space');
+        return;
+      }
+
+      const viewLink = getViewLinkByType(
+        ViewType.LIST,
+        firstView.id,
+        workspaceId as string,
+      );
+
+      if (!viewLink) {
+        console.error('No view link found for the new space');
+        return;
+      }
+
+      router.navigateByUrl(viewLink);
+    }),
+  );
+}, {
+  functional: true,
+  dispatch: false,
+});
+
+export const saveToLocalStorage = createEffect((
+  $actions = inject(Actions),
+  store = inject(Store),
+) => {
+  return $actions.pipe(
+    ofType(createSpaceSuccess),
+    concatLatestFrom(() => [
+      store.select(selectTree),
+    ]),
+    tap(([_, tree]) => {
+      localStorage.setItem(treeStorageKey, JSON.stringify(tree));
+    }),
+  );
+}, {
+  functional: true,
+  dispatch: false,
+});

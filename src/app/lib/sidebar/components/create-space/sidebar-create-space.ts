@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, output } from "@angular/core";
+import { AutoFocusDirective } from "@common/ui/auto-focus/auto-focus.directive";
 import { ButtonModule } from "@common/ui/button/button.module";
 
 @Component({
@@ -7,7 +8,8 @@ import { ButtonModule } from "@common/ui/button/button.module";
   styleUrls: ['./sidebar-create-space.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    ButtonModule
+    AutoFocusDirective,
+    ButtonModule,
   ]
 })
 export class SidebarCreateSpaceComponent {

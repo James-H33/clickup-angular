@@ -2,7 +2,7 @@ import { DestroyRef, inject, Injectable } from "@angular/core";
 import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router } from "@angular/router";
 import { WORKSPACE_ID } from "../types/workspace-id.const";
 import { filter } from "rxjs/internal/operators/filter";
-import { loadWorkspaceStart } from "../store/workspace/workspace.actions";
+import { loadWorkspaceStart, setWorkspaceId } from "../store/workspace/workspace.actions";
 import { Store } from "@ngrx/store";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { combineLatest, distinctUntilChanged, map, Subject, tap } from "rxjs";
@@ -28,16 +28,16 @@ export class WorkspaceService {
       )
       .subscribe((id) => {
         this.workspaceId = id as string;
+        this.setWorkspaceId(this.workspaceId);
         this.loadWorkspace(this.workspaceId);
       });
 
     // Initial load
     const initialId = this.getWorkspaceId();
 
-    console.log('Initial Workspace ID:', initialId);
-
     if (initialId) {
       this.workspaceId = initialId;
+      this.setWorkspaceId(this.workspaceId);
       this.loadWorkspace(this.workspaceId);
     }
   }
@@ -61,5 +61,9 @@ export class WorkspaceService {
 
   private loadWorkspace(id: string): void {
     this.store.dispatch(loadWorkspaceStart({ id }));
+  }
+
+  private setWorkspaceId(id: string): void {
+    this.store.dispatch(setWorkspaceId({ workspaceId: id }));
   }
 }

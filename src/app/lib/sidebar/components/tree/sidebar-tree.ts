@@ -15,16 +15,4 @@ export class SidebarTree {
   tree = input<HierarchyItem[]>();
   spaceId = input<string | null>();
   listId = input<string | null>();
-
-  constructor() {
-    effect(() => {
-      const tree = this.tree();
-      const spaceId = this.spaceId();
-      const listId = this.listId();
-
-      console.log('SidebarTree - tree:', tree);
-      console.log('SidebarTree - spaceId:', spaceId);
-      console.log('SidebarTree - listId:', listId);
-    })
-  }
 }
