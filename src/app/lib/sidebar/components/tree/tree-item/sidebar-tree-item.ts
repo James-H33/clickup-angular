@@ -49,8 +49,6 @@ export class SidebarTreeItem {
       return;
     }
 
-    console.log('Delete item:', item);
-
     this.itemDeleted.emit(item);
   }
 }

@@ -137,10 +137,6 @@ export const deleteHierarchyItem$ = createEffect((
       store.select(selectTreeMap),
     ]),
     map(([{ itemId, force}, tree, treeMap]) => {
-      console.log('Deleting item with ID:', itemId, 'Force:', force);
-      console.log('Current tree:', tree);
-      console.log('Current tree map:', treeMap);
-
       const item = treeMap[itemId];
 
       if (!item) {
