@@ -30,3 +30,16 @@ export const setHierarchyFromRoutingEventSuccess = createAction(
   '[Hierarchy] Set Hierarchy From Routing Event Success',
   props<{ currentViewId: string }>()
 );
+
+export const deleteHierarchyItemStart = createAction(
+  '[Hierarchy] Delete Hierarchy Item Start',
+  props<{
+    itemId: string,
+    force?: boolean
+  }>()
+);
+
+export const deleteHierarchyItemSuccess = createAction(
+  '[Hierarchy] Delete Hierarchy Item Success',
+  props<{ hierarchy: HierarchyItem[] }>()
+);

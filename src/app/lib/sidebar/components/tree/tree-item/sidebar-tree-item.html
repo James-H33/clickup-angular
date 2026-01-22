@@ -1,23 +1,48 @@
 <div class="sidebar-tree-item" [class.sidebar-tree-item--active]="isActive()">
+  <button
+    class="sidebar-tree-item__line-icon"
+    cuButtonIcon
+    cuButtonSize="xsmall"
+    [style.--cu-background-color-line-icon]="item()?.color">
+    {{ item()?.name | firstChar }}
+  </button>
+
   <a
     class="sidebar-tree-item__link"
     [routerLink]="routerLink()">
     {{ item()?.name }}
   </a>
 
-  <cu-sidebar-context-menu>
+  <cu-dropdown-menu>
     <button
       contextTrigger
       cuButton
-      cuButtonSize="xsmall"
+      cuButtonSize="compact"
       class="sidebar-tree-item__menu">
-      ...
+      <fa-icon [icon]="faRectangleList"></fa-icon>
     </button>
 
-    <div contextMenu>
-      <h2>Hello Menu</h2>
+    <div class="sidebar-tree-item__context-menu" contextMenu>
+      <button
+        cuButtonIcon
+        cuButtonSize="xsmall"
+        (click)="deleteItem(item())">
+        <fa-icon [icon]="faPenToSquare"></fa-icon>
+        <span>Rename</span>
+      </button>
+
+      <button
+        class="sidebar-tree-item__context-menu--delete-button"
+        cuButtonIcon
+        cuButtonSize="xsmall"
+        (click)="deleteItem(item())">
+        <fa-icon
+          [icon]="faTrashCan">
+        </fa-icon>
+        <span>Delete</span>
+      </button>
     </div>
-  </cu-sidebar-context-menu>
+  </cu-dropdown-menu>
 </div>
 
 <div class="sidebar-tree-item__children">

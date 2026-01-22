@@ -1,8 +1,8 @@
 .sidebar-tree-item {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  padding: var(--cu-size-1) var(--cu-size-1);
+  padding: var(--cu-size-1) var(--cu-size-2) var(--cu-size-1) var(--cu-size-2);
   border-radius: var(--cu-radii-3);
   margin-bottom: var(--cu-size-1);
 
@@ -15,14 +15,68 @@
   }
 }
 
+.sidebar-tree-item__line-icon {
+  color: white;
+  height: auto;
+  transition: all 0.2s ease-in-out;
+  font-size: 12px;
+  background-color: var(--cu-background-color-line-icon, transparent);
+  height: 18px;
+  width: 18px;
+  text-align: center;
+  margin-right: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    color: var(--cu-content-secondary);
+  }
+}
+
 .sidebar-tree-item__link {
   display: block;
   padding: var(--cu-size-1) var(--cu-size-1);
   text-decoration: none;
   color: var(--cu-content-secondary);
-  font-size: 12px;
+  font-size: 14px;
+}
+
+.sidebar-tree-item__menu {
+  opacity: 0;
+  height: auto;
+  transition: all 0.2s ease-in-out;
+
+  fa-icon {
+    font-size: 14px;
+    color: var(--cu-content-secondary);
+  }
+
+  .sidebar-tree-item:hover & {
+    opacity: 1;
+  }
 }
 
 .sidebar-tree-item__children {
   margin-left: var(--cu-size-4);
+}
+
+.sidebar-tree-item__context-menu {
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--cu-size-1);
+  padding: var(--cu-size-2);
+
+  button[cuButtonIcon] {
+    gap: var(--cu-size-2);
+  }
+
+  span, fa-icon {
+    font-size: 14px;
+  }
+}
+
+.sidebar-tree-item__context-menu--delete-button {
+  color: var(--cu-content-danger);
 }
