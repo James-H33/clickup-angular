@@ -7,9 +7,10 @@ import {
   CdkMenuTrigger,
 } from '@angular/cdk/menu';
 import { Store } from "@ngrx/store";
-import { createSpaceStart } from "@common/store/hierarchy/hierarchy.actions";
+import { createSpaceStart, deleteHierarchyItemStart } from "@common/store/hierarchy/hierarchy.actions";
 import { SidebarTree } from "../tree/sidebar-tree";
 import { selectCurrentListId, selectCurrentSpaceId, selectCurrentViewId, selectFlattenedTree, selectTree } from "@common/store/hierarchy/hierarchy.selectors";
+import { HierarchyItem } from "@common/types/hierarchy-item.model";
 
 @Component({
   selector: 'cu-sidebar',
@@ -35,6 +36,12 @@ export class SidebarComponent {
   onCreateSpace(event: { name: string }) {
     this.store.dispatch(
       createSpaceStart({ name: event.name }),
+    );
+  }
+
+  deleteItem(item: HierarchyItem) {
+    this.store.dispatch(
+      deleteHierarchyItemStart({ itemId: item.id }),
     );
   }
 }

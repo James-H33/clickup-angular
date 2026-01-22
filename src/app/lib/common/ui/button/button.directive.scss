@@ -1,26 +1,26 @@
 button[cuButton] {
-  height: var(--32px);
+  height: auto;
   background-color: transparent;
   color: var(--cu-content-secondary);
   border: none;
-  padding: 0 var(--8px);
+  padding: 4px var(--8px);
   border-radius: var(--cu-radii-2-5);
   cursor: pointer;
 
   &[cuButtonSize="compact"] {
-    height: var(--28px);
-    padding-inline: 7px;
+    height: auto;
+    padding: 4px 6px;
     border-radius: var(--cu-radii-3-5);
     font-size: 12px;
   }
 
   &[cuButtonSize="small"] {
-    height: var(--24px);
+    height: auto;
     font-size: 12px;
   }
 
   &[cuButtonSize="xsmall"] {
-    height: var(--18px);
+    height: auto;
     font-size: 10px;
   }
 

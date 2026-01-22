@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, effect, input, output } from "@angular/core";
 import { SidebarTreeItem } from "./tree-item/sidebar-tree-item";
 import { HierarchyItem } from "@common/types/hierarchy-item.model";
 
@@ -15,4 +15,6 @@ export class SidebarTree {
   tree = input<HierarchyItem[]>();
   spaceId = input<string | null>();
   listId = input<string | null>();
+
+  deleteItem = output<HierarchyItem>();
 }

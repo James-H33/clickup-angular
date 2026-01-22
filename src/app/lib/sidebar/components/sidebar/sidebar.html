@@ -14,7 +14,8 @@
     <cu-sidebar-tree
       [spaceId]="currentSpaceId()"
       [listId]="currentListId()"
-      [tree]="tree()">
+      [tree]="tree()"
+      (deleteItem)="deleteItem($event)">
     </cu-sidebar-tree>
   </div>
 </div>

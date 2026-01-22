@@ -1,18 +1,19 @@
 import { inject } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { of } from "rxjs";
-import { map, switchMap, tap } from "rxjs/operators";
+import { from, of } from "rxjs";
+import { concatMap, map, switchMap, tap } from "rxjs/operators";
 import { loadWorkspaceSuccess } from "../workspace/workspace.actions";
 import { createDummySpace } from "./fake-data-helpers/fake-data-helpers";
-import { createSpaceStart, createSpaceSuccess, loadTreeStart, loadTreeSuccess, setHierarchyFromRoutingEventStart, setHierarchyFromRoutingEventSuccess } from "./hierarchy.actions";
+import { createSpaceStart, createSpaceSuccess, deleteHierarchyItemStart, deleteHierarchyItemSuccess, loadTreeStart, loadTreeSuccess, setHierarchyFromRoutingEventStart, setHierarchyFromRoutingEventSuccess } from "./hierarchy.actions";
 import { Router } from "@angular/router";
 import { HierarchyItem } from "@common/types/hierarchy-item.model";
 import { concatLatestFrom } from "@ngrx/operators"
-import { selectTree } from "./hierarchy.selectors";
+import { selectFlattenedTree, selectTree, selectTreeMap } from "./hierarchy.selectors";
 import { selectWorkspaceId } from "../workspace/workspace.selectors";
 import { getViewLinkByType } from "@common/utils/get-view-link-by-type.function";
 import { ViewType } from "@common/types/view-type.enum";
+import { HierarchyType } from "@common/types/hierarchy-type.enum";
 
 const treeStorageKey = 'clickup_hierarchy_tree';
 
@@ -125,6 +126,56 @@ export const updateActiveViewOnLoadTreeSuccess$ = createEffect((
   );
 }, { functional: true });
 
+export const deleteHierarchyItem$ = createEffect((
+  $actions = inject(Actions),
+  store = inject(Store),
+) => {
+  return $actions.pipe(
+    ofType(deleteHierarchyItemStart),
+    concatLatestFrom(() => [
+      store.select(selectTree),
+      store.select(selectTreeMap),
+    ]),
+    map(([{ itemId, force}, tree, treeMap]) => {
+      console.log('Deleting item with ID:', itemId, 'Force:', force);
+      console.log('Current tree:', tree);
+      console.log('Current tree map:', treeMap);
+
+      const item = treeMap[itemId];
+
+      if (!item) {
+        throw new Error(`Item with ID ${itemId} not found in hierarchy.`);
+      }
+
+      let updatedHierarchy = [...tree];
+
+      if (item.type === HierarchyType.LIST) {
+        const parentId = item.parentId;
+
+        const parentItem = updatedHierarchy.find(i => i.id === parentId);
+
+        if (parentItem && parentItem.children) {
+          const updatedParentItem = {
+            ...parentItem,
+            children: parentItem.children.filter(child => child.id !== itemId),
+          };
+
+          updatedHierarchy = updatedHierarchy.map(item => {
+            return item.id === parentId
+              ? updatedParentItem as HierarchyItem
+              : item
+          });
+        }
+      } else {
+        // For spaces and other types, remove the item and all its children
+        updatedHierarchy = updatedHierarchy.filter(i => i.id !== itemId);
+      }
+
+      return deleteHierarchyItemSuccess({ hierarchy: updatedHierarchy });
+    }),
+  );
+}, { functional: true });
+
 export const redirectToSpaceAfterCreation$ = createEffect((
   $actions = inject(Actions),
   store = inject(Store),
@@ -167,7 +218,10 @@ export const saveToLocalStorage = createEffect((
   store = inject(Store),
 ) => {
   return $actions.pipe(
-    ofType(createSpaceSuccess),
+    ofType(
+      createSpaceSuccess,
+      deleteHierarchyItemSuccess,
+    ),
     concatLatestFrom(() => [
       store.select(selectTree),
     ]),
