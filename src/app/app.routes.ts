@@ -1,11 +1,8 @@
 
-import { Router, Routes } from '@angular/router';
-import { HomeComponent } from './lib/views/home/home';
-import { SignupComponent } from './lib/signup/signup';
-import { ShellComponent } from './lib/shell/shell';
-import { WorkspaceRedirectGuard } from './lib/guards/workspace.guard';
 import { inject } from '@angular/core';
+import { Routes } from '@angular/router';
 import { RedirectService } from './lib/guards/redirect/redirect.service';
+import { SignupComponent } from './lib/signup/signup';
 
 export const routes: Routes = [
   { path: 'signup', component: SignupComponent },
@@ -20,7 +17,6 @@ export const routes: Routes = [
   },
   {
     path: ':workspaceId',
-    // canActivate: [WorkspaceAuthenticationGuard],
     loadChildren: () => import('./lib/shell/shell.routes').then(m => m.shellRoutes)
   },
 ];

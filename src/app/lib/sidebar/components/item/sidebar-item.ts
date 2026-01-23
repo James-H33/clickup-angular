@@ -16,15 +16,4 @@ export class SidebarItem {
   isActiveRoute = input<boolean>();
   label = input<string>();
   clicked = output();
-
-  // icons = FaIcons;
-
-  // constructor(
-  //   iconLibrary: FaIconLibrary,
-  // ) {
-  //   iconLibrary.addIcons(
-  //     FaIcons.faSquare,
-  //     FaIcons.faCheckSquare,
-  //   );
-  // }
 }

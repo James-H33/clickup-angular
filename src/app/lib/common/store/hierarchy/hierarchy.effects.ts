@@ -163,7 +163,6 @@ export const deleteHierarchyItem$ = createEffect((
           });
         }
       } else {
-        // For spaces and other types, remove the item and all its children
         updatedHierarchy = updatedHierarchy.filter(i => i.id !== itemId);
       }
 
@@ -208,7 +207,6 @@ export const renameHierarchyItem$ = createEffect((
           });
         }
       } else {
-        // For spaces and other types, update the item and all its children
         updatedHierarchy = updatedHierarchy.map(i => i.id === itemId ? { ...i, name } : i);
       }
 

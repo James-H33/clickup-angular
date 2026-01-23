@@ -51,7 +51,6 @@ export class SidebarComponent {
   renameItem(item: HierarchyItem) {
     const dialogRef = this.dialog.open(SidebarRenameItemComponent, {
       width: '375px',
-      // height: '300px',
     });
 
     const componentRef = dialogRef?.componentRef;
@@ -59,11 +58,5 @@ export class SidebarComponent {
     if (componentRef) {
       componentRef.setInput('item', item);
     }
-
-    // Open rename dialog logic to be implemented
-
-    // this.store.dispatch(
-    //   renameHierarchyItemStart({ itemId: item.id }),
-    // );
   }
 }
