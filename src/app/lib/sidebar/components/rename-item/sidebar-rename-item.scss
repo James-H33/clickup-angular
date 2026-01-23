@@ -1,0 +1,37 @@
+.sidebar-rename-item {
+  display: flex;
+  flex-direction: column;
+  padding: var(--cu-size-4);
+  background-color: var(--cu-background-main);
+  border-radius: var(--cu-radii-3);
+}
+
+.sidebar-rename-item__header {
+  margin-bottom: var(--cu-size-2);
+}
+
+.sidebar-rename-item__header-border {
+  border-bottom: 1px solid var(--cu-border-default);
+  margin: 0 calc(var(--cu-size-4) * -1);
+}
+
+.sidebar-rename-item__form {
+  padding: var(--cu-size-4) 0;
+  margin-bottom: var(--cu-size-2);
+}
+
+.sidebar-rename-item__input-label {
+  display: block;
+  font-size: 12px;
+  color: var(--cu-content-secondary);
+  margin-bottom: var(--cu-size-2);
+}
+
+.sidebar-rename-item__input {
+  font-size: 14px;
+}
+
+.sidebar-rename-item__save-button {
+  align-self: flex-end;
+  height: 32px;
+}

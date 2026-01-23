@@ -43,3 +43,13 @@ export const deleteHierarchyItemSuccess = createAction(
   '[Hierarchy] Delete Hierarchy Item Success',
   props<{ hierarchy: HierarchyItem[] }>()
 );
+
+export const renameHierarchyItemStart = createAction(
+  '[Hierarchy] Rename Hierarchy Item Start',
+  props<{ itemId: string, name: string}>()
+);
+
+export const renameHierarchyItemSuccess = createAction(
+  '[Hierarchy] Rename Hierarchy Item Success',
+  props<{ hierarchy: HierarchyItem[] }>()
+);

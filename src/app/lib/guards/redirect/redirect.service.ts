@@ -15,7 +15,6 @@ export class RedirectService {
     if (id) {
       return this.router.createUrlTree([`/${id}/home`]);
     } else {
-      // fallback: redirect to signup or another route if id is missing
       return this.router.createUrlTree(['/signup']);
     }
   }

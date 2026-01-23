@@ -31,10 +31,10 @@ button[cuButton] {
 
   &[cuButtonVariant="primary"] {
     color: var(--cu-background-main);
-    background-color: var(--cu-main-theme-color);
+    background-color: var(--cu-background-primary);
 
     &:hover {
-      background-color: var(--cu-main-theme-color);
+      background-color: var(--cu-background-primary-hover);
     }
   }
 

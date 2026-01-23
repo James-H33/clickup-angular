@@ -3,7 +3,6 @@ import { CommonModule } from "@angular/common";
 import { Store } from "@ngrx/store";
 
 import * as WorkspaceSelectors from "../common/store/workspace/workspace.selectors";
-import { combineLatest, map } from "rxjs";
 import { ButtonModule } from "../common/ui/button/button.module";
 
 @Component({
@@ -20,22 +19,6 @@ export class NavComponent {
   private store = inject(Store);
 
   workspaceId = this.store.selectSignal(WorkspaceSelectors.selectWorkspaceId);
-
-  // vm$ = combineLatest({
-  //   workspaceId: this.workspaceId$,
-  //   listViewLink: this.workspaceId$.pipe(
-  //     map(id => id ? `/${id}/v/l` : null)
-  //   ),
-  //   boardViewLink: this.workspaceId$.pipe(
-  //     map(id => id ? `/${id}/v/b` : null)
-  //   ),
-  // }).pipe(
-  //   map(({ workspaceId, listViewLink, boardViewLink }) => ({
-  //     workspaceId,
-  //     listViewLink,
-  //     boardViewLink,
-  //   }))
-  // );
 
   vm = computed(() => {
     const workspaceId = this.workspaceId();

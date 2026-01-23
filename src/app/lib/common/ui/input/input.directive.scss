@@ -1,0 +1,18 @@
+input[cuInput] {
+  text-overflow: ellipsis;
+  width: 100%;
+  padding: 8px 4px;
+  border-radius: var(--cu-radii-3);
+  border: var(--cu-border-size-1) solid var(--cu-border-default);
+  font-size: 12px;
+  font-weight: var(--cu-font-weight-regular);
+  line-height: var(--cu-label-small-line-height);
+  background-color: var(--cu-background-main);
+
+  &:active,
+  &:focus {
+    border-color: var(--cu-border-active);
+    box-shadow: 0 0 0 1px var(--cu-border-primary-focus), 0 0 0 4px var(--cu-effect-primary);
+    outline: none;
+  }
+}
