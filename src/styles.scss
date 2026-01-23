@@ -1,5 +1,8 @@
 @use './app/lib/common/ui/ui.scss' as *;
 @use './app/lib/styles/styles.scss' as *;
+@use '@angular/cdk' as cdk;
+
+@include cdk.overlay();
 
 /* You can add global styles to this file, and also import other style files */
 * {

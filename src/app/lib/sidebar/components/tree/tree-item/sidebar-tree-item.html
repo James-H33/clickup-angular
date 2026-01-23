@@ -26,7 +26,7 @@
       <button
         cuButtonIcon
         cuButtonSize="xsmall"
-        (click)="deleteItem(item())">
+        (click)="onRenameItem(item())">
         <fa-icon [icon]="faPenToSquare"></fa-icon>
         <span>Rename</span>
       </button>
@@ -35,7 +35,7 @@
         class="sidebar-tree-item__context-menu--delete-button"
         cuButtonIcon
         cuButtonSize="xsmall"
-        (click)="deleteItem(item())">
+        (click)="onDeleteItem(item())">
         <fa-icon
           [icon]="faTrashCan">
         </fa-icon>

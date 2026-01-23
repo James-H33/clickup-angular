@@ -5,7 +5,7 @@ import { from, of } from "rxjs";
 import { concatMap, map, switchMap, tap } from "rxjs/operators";
 import { loadWorkspaceSuccess } from "../workspace/workspace.actions";
 import { createDummySpace } from "./fake-data-helpers/fake-data-helpers";
-import { createSpaceStart, createSpaceSuccess, deleteHierarchyItemStart, deleteHierarchyItemSuccess, loadTreeStart, loadTreeSuccess, setHierarchyFromRoutingEventStart, setHierarchyFromRoutingEventSuccess } from "./hierarchy.actions";
+import { createSpaceStart, createSpaceSuccess, deleteHierarchyItemStart, deleteHierarchyItemSuccess, loadTreeStart, loadTreeSuccess, renameHierarchyItemStart, renameHierarchyItemSuccess, setHierarchyFromRoutingEventStart, setHierarchyFromRoutingEventSuccess } from "./hierarchy.actions";
 import { Router } from "@angular/router";
 import { HierarchyItem } from "@common/types/hierarchy-item.model";
 import { concatLatestFrom } from "@ngrx/operators"
@@ -172,6 +172,51 @@ export const deleteHierarchyItem$ = createEffect((
   );
 }, { functional: true });
 
+export const renameHierarchyItem$ = createEffect((
+  $actions = inject(Actions),
+  store = inject(Store),
+) => {
+  return $actions.pipe(
+    ofType(renameHierarchyItemStart),
+    concatLatestFrom(() => [
+      store.select(selectTree),
+      store.select(selectTreeMap),
+    ]),
+    map(([{ itemId, name }, tree, treeMap]) => {
+      const item = treeMap[itemId];
+
+      if (!item) {
+        throw new Error(`Item with ID ${itemId} not found in hierarchy.`);
+      }
+
+      let updatedHierarchy = [...tree];
+
+      if (item.type === HierarchyType.LIST) {
+        const parentId = item.parentId as string;
+        const parentItem = treeMap[parentId];
+
+        if (parentItem && parentItem.children) {
+          const updatedParentItem = {
+            ...parentItem,
+            children: parentItem.children.map(child => child.id === itemId ? { ...child, name } : child),
+          };
+
+          updatedHierarchy = updatedHierarchy.map(item => {
+            return item.id === parentId
+              ? updatedParentItem as HierarchyItem
+              : item
+          });
+        }
+      } else {
+        // For spaces and other types, update the item and all its children
+        updatedHierarchy = updatedHierarchy.map(i => i.id === itemId ? { ...i, name } : i);
+      }
+
+      return renameHierarchyItemSuccess({ hierarchy: updatedHierarchy });
+    }),
+  );
+}, { functional: true });
+
 export const redirectToSpaceAfterCreation$ = createEffect((
   $actions = inject(Actions),
   store = inject(Store),
@@ -217,6 +262,7 @@ export const saveToLocalStorage = createEffect((
     ofType(
       createSpaceSuccess,
       deleteHierarchyItemSuccess,
+      renameHierarchyItemSuccess,
     ),
     concatLatestFrom(() => [
       store.select(selectTree),

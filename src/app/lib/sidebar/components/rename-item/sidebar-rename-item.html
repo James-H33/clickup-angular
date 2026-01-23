@@ -1,0 +1,34 @@
+<div class="sidebar-rename-item">
+  <div class="sidebar-rename-item__header">
+    <h4>Rename</h4>
+  </div>
+
+  <div class="sidebar-rename-item__header-border"></div>
+
+  <div class="sidebar-rename-item__form">
+    <label
+      class="sidebar-rename-item__input-label"
+      for="itemName">
+      Rename to:
+    </label>
+
+    <input
+      type="text"
+      id="itemName"
+      name="itemName"
+      class="sidebar-rename-item__input"
+      cuInput
+      value="{{ item()?.name || '' }}"
+      #nameInput
+      required
+    />
+  </div>
+
+  <button
+    cuButton
+    cuButtonVariant="primary"
+    class="sidebar-rename-item__save-button"
+    (click)="rename(nameInput.value)">
+    Save Changes
+  </button>
+</div>

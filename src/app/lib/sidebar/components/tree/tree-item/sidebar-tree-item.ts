@@ -26,7 +26,8 @@ export class SidebarTreeItem {
   item = input<HierarchyItem>();
   isActive = input<boolean>();
 
-  itemDeleted = output<HierarchyItem>();
+  deleteItem = output<HierarchyItem>();
+  renameItem = output<HierarchyItem>();
 
   faRectangleList = faRectangleList;
   faTrashCan = faTrashCan;
@@ -42,13 +43,23 @@ export class SidebarTreeItem {
     return getHierarchyLinkByType(item);
   });
 
-  deleteItem(
+  onDeleteItem(
     item: Nullable<HierarchyItem>
-  ) {
+  ): void {
     if (!item) {
       return;
     }
 
-    this.itemDeleted.emit(item);
+    this.deleteItem.emit(item);
+  }
+
+  onRenameItem(
+    item: Nullable<HierarchyItem>
+  ): void {
+    if (!item) {
+      return;
+    }
+
+    this.renameItem.emit(item);
   }
 }

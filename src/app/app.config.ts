@@ -7,6 +7,7 @@ import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { WorkspaceStoreModule } from './lib/common/store/workspace/workspace-store.module';
 import { HierarchyStoreModule } from '@common/store/hierarchy/hierarchy-store.module';
+import { DialogModule } from '@angular/cdk/dialog';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom([
       WorkspaceStoreModule,
       HierarchyStoreModule,
+      DialogModule,
     ]),
   ]
 };

@@ -17,4 +17,5 @@ export class SidebarTree {
   listId = input<string | null>();
 
   deleteItem = output<HierarchyItem>();
+  renameItem = output<HierarchyItem>();
 }
