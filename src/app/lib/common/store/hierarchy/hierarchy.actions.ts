@@ -11,16 +11,6 @@ export const loadTreeSuccess = createAction(
   props<{ hierarchy: HierarchyItem[] }>()
 );
 
-export const createSpaceStart = createAction(
-  '[Hierarchy] Create Space Start',
-  props<{ name: string }>()
-);
-
-export const createSpaceSuccess = createAction(
-  '[Hierarchy] Create Space Success',
-  props<{ space: HierarchyItem }>()
-);
-
 export const setHierarchyFromRoutingEventStart = createAction(
   '[Hierarchy] Set Hierarchy From Routing Event Start',
   props<{ event: NavigationEnd }>()
@@ -52,4 +42,24 @@ export const renameHierarchyItemStart = createAction(
 export const renameHierarchyItemSuccess = createAction(
   '[Hierarchy] Rename Hierarchy Item Success',
   props<{ hierarchy: HierarchyItem[] }>()
+);
+
+export const addHierarchyItemStart = createAction(
+  '[Hierarchy] Add Hierarchy Item Start',
+  props<{
+    name: string,
+    createType: HierarchyItem['type'],
+    parentId?: string,
+    redirect?: boolean
+  }>()
+);
+
+export const addHierarchyItemSuccess = createAction(
+  '[Hierarchy] Add Hierarchy Item Success',
+  props<{ hierarchy: HierarchyItem[] }>()
+);
+
+export const addHierarchyItemSuccessAndRedirect = createAction(
+  '[Hierarchy] Add Hierarchy Item Success And Redirect',
+  props<{ itemId: string, hierarchy: HierarchyItem[] }>()
 );

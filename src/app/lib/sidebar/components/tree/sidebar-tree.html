@@ -4,12 +4,14 @@
       [isActive]="item.id === spaceId()"
       (deleteItem)="deleteItem.emit($event)"
       (renameItem)="renameItem.emit($event)"
+      (addList)="addList.emit($event)"
       [item]="item">
       @for (childItem of item.children; track childItem.id) {
         <cu-sidebar-tree-item
           [isActive]="childItem.id === listId()"
           (deleteItem)="deleteItem.emit($event)"
           (renameItem)="renameItem.emit($event)"
+          (addList)="addList.emit($event)"
           [item]="childItem">
         </cu-sidebar-tree-item>
       }

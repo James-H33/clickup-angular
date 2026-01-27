@@ -23,6 +23,16 @@
     </button>
 
     <div class="sidebar-tree-item__context-menu" contextMenu>
+      @if (item()?.type === hierarchyType.SPACE) {
+        <button
+          cuButtonIcon
+          cuButtonSize="xsmall"
+          (click)="onAddList(item())">
+          <fa-icon [icon]="faHandLizard"></fa-icon>
+          <span>Add List</span>
+        </button>
+      }
+
       <button
         cuButtonIcon
         cuButtonSize="xsmall"

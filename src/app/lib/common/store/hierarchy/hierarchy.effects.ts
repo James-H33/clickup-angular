@@ -1,19 +1,33 @@
 import { inject } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { from, of } from "rxjs";
-import { concatMap, map, switchMap, tap } from "rxjs/operators";
+import { of } from "rxjs";
+import { map, switchMap, tap } from "rxjs/operators";
 import { loadWorkspaceSuccess } from "../workspace/workspace.actions";
 import { createDummySpace } from "./fake-data-helpers/fake-data-helpers";
-import { createSpaceStart, createSpaceSuccess, deleteHierarchyItemStart, deleteHierarchyItemSuccess, loadTreeStart, loadTreeSuccess, renameHierarchyItemStart, renameHierarchyItemSuccess, setHierarchyFromRoutingEventStart, setHierarchyFromRoutingEventSuccess } from "./hierarchy.actions";
+import {
+  addHierarchyItemStart,
+  addHierarchyItemSuccess,
+  addHierarchyItemSuccessAndRedirect,
+  deleteHierarchyItemStart,
+  deleteHierarchyItemSuccess,
+  loadTreeStart,
+  loadTreeSuccess,
+  renameHierarchyItemStart,
+  renameHierarchyItemSuccess,
+  setHierarchyFromRoutingEventStart,
+  setHierarchyFromRoutingEventSuccess
+} from "./hierarchy.actions";
 import { Router } from "@angular/router";
 import { HierarchyItem } from "@common/types/hierarchy-item.model";
 import { concatLatestFrom } from "@ngrx/operators"
-import { selectFlattenedTree, selectTree, selectTreeMap } from "./hierarchy.selectors";
+import { selectTree, selectTreeMap } from "./hierarchy.selectors";
 import { selectWorkspaceId } from "../workspace/workspace.selectors";
 import { getViewLinkByType } from "@common/utils/get-view-link-by-type.function";
 import { ViewType } from "@common/types/view-type.enum";
 import { HierarchyType } from "@common/types/hierarchy-type.enum";
+import { createHierarchyItemBasedOnType } from "./utils/create-hierarchy-item-based-on-type.function";
+import { updateHierarchyWithNewItem } from "./utils/update-hierarchy-with-new-item.function";
 
 const treeStorageKey = 'clickup_hierarchy_tree';
 
@@ -66,19 +80,6 @@ export const loadHierarchy$ = createEffect((
   );
 }, { functional: true });
 
-export const createSpace$ = createEffect((
-  $actions = inject(Actions),
-) => {
-  return $actions.pipe(
-    ofType(createSpaceStart),
-    switchMap(({ name }) => {
-      return of(createDummySpace(name)).pipe(
-        map(space => createSpaceSuccess({ space })),
-      )
-    })
-  );
-}, { functional: true });
-
 export const setHierarchyFromRoutingEvent$ = createEffect((
   $actions = inject(Actions),
   store = inject(Store),
@@ -126,6 +127,8 @@ export const updateActiveViewOnLoadTreeSuccess$ = createEffect((
   );
 }, { functional: true });
 
+// What if the user is on the view being deleted?
+// We should probably redirect them to a safe location
 export const deleteHierarchyItem$ = createEffect((
   $actions = inject(Actions),
   store = inject(Store),
@@ -136,7 +139,7 @@ export const deleteHierarchyItem$ = createEffect((
       store.select(selectTree),
       store.select(selectTreeMap),
     ]),
-    map(([{ itemId, force}, tree, treeMap]) => {
+    map(([{ itemId, force }, tree, treeMap]) => {
       const item = treeMap[itemId];
 
       if (!item) {
@@ -215,23 +218,50 @@ export const renameHierarchyItem$ = createEffect((
   );
 }, { functional: true });
 
-export const redirectToSpaceAfterCreation$ = createEffect((
+export const addHierarchyItem$ = createEffect((
+  $actions = inject(Actions),
+  store = inject(Store),
+) => {
+  return $actions.pipe(
+    ofType(addHierarchyItemStart),
+    concatLatestFrom(() => [
+      store.select(selectTree),
+      store.select(selectTreeMap),
+    ]),
+    map(([{ parentId, name, createType, redirect }, tree, treeMap]) => {
+      const newItem = createHierarchyItemBasedOnType(name, parentId as string, createType);
+      const updatedHierarchy = updateHierarchyWithNewItem(tree, treeMap, newItem);
+
+      const action = redirect
+        ? addHierarchyItemSuccessAndRedirect({
+          itemId: newItem.id,
+          hierarchy: updatedHierarchy
+        })
+        : addHierarchyItemSuccess({
+          hierarchy: updatedHierarchy
+        })
+
+      return action;
+    }),
+  );
+}, { functional: true });
+
+export const redirectToHierarchyItemAfterCreation$ = createEffect((
   $actions = inject(Actions),
   store = inject(Store),
   router = inject(Router),
 ) => {
   return $actions.pipe(
-    ofType(createSpaceSuccess),
+    ofType(
+      addHierarchyItemSuccessAndRedirect,
+    ),
     concatLatestFrom(() => [
       store.select(selectWorkspaceId),
+      store.select(selectTreeMap),
     ]),
-    tap(([{ space }, workspaceId]) => {
-      const firstView = space.views?.[0];
-
-      if (!firstView) {
-        console.error('No views found for the new space');
-        return;
-      }
+    tap(([{ itemId }, workspaceId, treeMap]) => {
+      const item = treeMap[itemId];
+      const firstView = item.views?.[0];
 
       const viewLink = getViewLinkByType(
         ViewType.LIST,
@@ -252,15 +282,19 @@ export const redirectToSpaceAfterCreation$ = createEffect((
   dispatch: false,
 });
 
+
+// We should move this to a service that watches for changes in the hierarchy state
+// Otherwise we will have to keep adding effects for every action that modifies the hierarchy
 export const saveToLocalStorage = createEffect((
   $actions = inject(Actions),
   store = inject(Store),
 ) => {
   return $actions.pipe(
     ofType(
-      createSpaceSuccess,
       deleteHierarchyItemSuccess,
       renameHierarchyItemSuccess,
+      addHierarchyItemSuccess,
+      addHierarchyItemSuccessAndRedirect,
     ),
     concatLatestFrom(() => [
       store.select(selectTree),
