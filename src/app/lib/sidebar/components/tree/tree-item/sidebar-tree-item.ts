@@ -4,10 +4,11 @@ import { RouterLink } from "@angular/router";
 import { getHierarchyLinkByType } from "@common/utils/get-hierarchy-link-by-type.function";
 import { DropdownMenuComponent } from "@common/ui/dropdown-menu/dropdown-menu";
 import { FirstCharPipe } from "@common/pipes/first-char.pipe";
-import { faMap, faPenToSquare, faRectangleList, faTrashCan} from "@fortawesome/free-regular-svg-icons";
+import { faHandLizard, faMap, faPenToSquare, faRectangleList, faTrashCan} from "@fortawesome/free-regular-svg-icons";
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { ButtonIconDirective } from "@common/ui/button-icon/button-icon.directive";
 import { Nullable } from "@common/types/nullable";
+import { HierarchyType } from "@common/types/hierarchy-type.enum";
 
 @Component({
   selector: 'cu-sidebar-tree-item',
@@ -28,10 +29,13 @@ export class SidebarTreeItem {
 
   deleteItem = output<HierarchyItem>();
   renameItem = output<HierarchyItem>();
+  addList = output<HierarchyItem>();
 
+  hierarchyType = HierarchyType;
   faRectangleList = faRectangleList;
   faTrashCan = faTrashCan;
   faPenToSquare = faPenToSquare;
+  faHandLizard = faHandLizard;
 
   routerLink = computed(() => {
     const item = this.item();
@@ -61,5 +65,15 @@ export class SidebarTreeItem {
     }
 
     this.renameItem.emit(item);
+  }
+
+  onAddList(
+    item: Nullable<HierarchyItem>
+  ): void {
+    if (!item) {
+      return;
+    }
+
+    this.addList.emit(item);
   }
 }

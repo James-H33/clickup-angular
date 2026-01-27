@@ -1,4 +1,4 @@
-import { Component, inject, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject, input } from "@angular/core";
 import { HierarchyItem } from "@common/types/hierarchy-item.model";
 import { ButtonModule } from "@common/ui/button/button.module";
 import { Store } from "@ngrx/store";
@@ -10,6 +10,10 @@ import { DialogRef } from "@angular/cdk/dialog";
   selector: 'cu-sidebar-rename-item',
   templateUrl: './sidebar-rename-item.html',
   styleUrls: ['./sidebar-rename-item.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+   host: {
+    class: 'cu-cdk-overlay-pane-padding',
+  },
   imports: [
     ButtonModule,
     InputDirective

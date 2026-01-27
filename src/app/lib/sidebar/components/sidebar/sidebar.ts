@@ -7,12 +7,14 @@ import {
   CdkMenuTrigger,
 } from '@angular/cdk/menu';
 import { Store } from "@ngrx/store";
-import { createSpaceStart, deleteHierarchyItemStart, renameHierarchyItemStart } from "@common/store/hierarchy/hierarchy.actions";
+import { addHierarchyItemStart, deleteHierarchyItemStart, renameHierarchyItemStart } from "@common/store/hierarchy/hierarchy.actions";
 import { SidebarTree } from "../tree/sidebar-tree";
 import { selectCurrentListId, selectCurrentSpaceId, selectCurrentViewId, selectFlattenedTree, selectTree } from "@common/store/hierarchy/hierarchy.selectors";
 import { HierarchyItem } from "@common/types/hierarchy-item.model";
 import { Dialog } from "@angular/cdk/dialog";
 import { SidebarRenameItemComponent } from "../rename-item/sidebar-rename-item";
+import { SidebarAddItemComponent } from "../add-item/sidebar-add-item";
+import { HierarchyType } from "@common/types/hierarchy-type.enum";
 
 @Component({
   selector: 'cu-sidebar',
@@ -38,7 +40,11 @@ export class SidebarComponent {
 
   onCreateSpace(event: { name: string }) {
     this.store.dispatch(
-      createSpaceStart({ name: event.name }),
+      addHierarchyItemStart({
+        name: event.name,
+        createType: HierarchyType.SPACE,
+        redirect: true
+      }),
     );
   }
 
@@ -50,13 +56,25 @@ export class SidebarComponent {
 
   renameItem(item: HierarchyItem) {
     const dialogRef = this.dialog.open(SidebarRenameItemComponent, {
-      width: '375px',
+      width: '425px',
     });
 
     const componentRef = dialogRef?.componentRef;
 
     if (componentRef) {
       componentRef.setInput('item', item);
+    }
+  }
+
+  addList(item: HierarchyItem) {
+    const dialogRef = this.dialog.open(SidebarAddItemComponent, {
+      width: '425px',
+    });
+
+    const componentRef = dialogRef?.componentRef;
+
+    if (componentRef) {
+      componentRef.setInput('parentItem', item);
     }
   }
 }

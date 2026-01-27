@@ -1,0 +1,34 @@
+<div class="sidebar-add-item">
+  <div class="sidebar-add-item__header">
+    <h4>Create List</h4>
+  </div>
+
+  <div class="sidebar-add-item__header-border"></div>
+
+  <div class="sidebar-add-item__form">
+    <label
+      class="sidebar-add-item__input-label"
+      for="name">
+      Add List to: <span class="sidebar-add-item__parent-name">{{ parentItem()?.name }}</span>
+    </label>
+
+    <input
+      type="text"
+      id="name"
+      name="name"
+      class="sidebar-add-item__input"
+      placeholder="e.g. Project, List of items, Campaign"
+      cuInput
+      #nameInput
+      required
+    />
+  </div>
+
+  <button
+    cuButton
+    cuButtonVariant="primary"
+    class="sidebar-add-item__save-button"
+    (click)="add(nameInput.value)">
+    Create
+  </button>
+</div>
