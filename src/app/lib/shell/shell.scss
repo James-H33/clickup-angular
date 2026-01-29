@@ -35,4 +35,5 @@
 .main-left, .main-right {
   background-color: var(--cu-background-main);
   height: calc(100vh - var(--cu-shell-offset-height));
+  overflow: hidden;
 }

@@ -5,6 +5,7 @@ import { WorkspaceService } from "@common/services/workspace.service";
 import { NavComponent } from "../nav/nav";
 import { SidebarComponent } from "../sidebar/components/sidebar/sidebar";
 import { SimpleSidebarComponent } from "../sidebar/components/simple-sidebar/simple-sidebar";
+import { HierarchyDataChangeService } from "@common/services/hierarchy-data-change.service";
 
 @Component({
   selector: 'cu-shell',
@@ -21,9 +22,11 @@ import { SimpleSidebarComponent } from "../sidebar/components/simple-sidebar/sim
 export class ShellComponent {
   private workspaceService = inject(WorkspaceService);
   private hierarchyRoutingEventService = inject(HierarchyRoutingEventService);
+  private hierarchyDataChangeService = inject(HierarchyDataChangeService);
 
   ngOnInit(): void {
     this.workspaceService.init();
     this.hierarchyRoutingEventService.init();
+    this.hierarchyDataChangeService.watchHierarchyDataChanges();
   }
 }

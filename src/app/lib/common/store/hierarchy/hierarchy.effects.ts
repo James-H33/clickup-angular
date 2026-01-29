@@ -28,11 +28,11 @@ import { ViewType } from "@common/types/view-type.enum";
 import { HierarchyType } from "@common/types/hierarchy-type.enum";
 import { createHierarchyItemBasedOnType } from "./utils/create-hierarchy-item-based-on-type.function";
 import { updateHierarchyWithNewItem } from "./utils/update-hierarchy-with-new-item.function";
-
-const treeStorageKey = 'clickup_hierarchy_tree';
+import { removeItemFromHierarchy } from "./utils/remove-item-from-hierarchy.function";
+import { TREE_STORAGE_KEY } from "@common/types/tree-storage-key.const";
 
 function getTreeFromLocalStorage() {
-  const treeJson = localStorage.getItem(treeStorageKey);
+  const treeJson = localStorage.getItem(TREE_STORAGE_KEY);
 
   if (treeJson) {
     try {
@@ -58,7 +58,7 @@ function loadHierarchy(): HierarchyItem[] {
     createDummySpace('Marketing'),
   ];
 
-  localStorage.setItem(treeStorageKey, JSON.stringify(dummyHierarchy));
+  localStorage.setItem(TREE_STORAGE_KEY, JSON.stringify(dummyHierarchy));
 
   return dummyHierarchy;
 }
@@ -146,28 +146,7 @@ export const deleteHierarchyItem$ = createEffect((
         throw new Error(`Item with ID ${itemId} not found in hierarchy.`);
       }
 
-      let updatedHierarchy = [...tree];
-
-      if (item.type === HierarchyType.LIST) {
-        const parentId = item.parentId;
-
-        const parentItem = updatedHierarchy.find(i => i.id === parentId);
-
-        if (parentItem && parentItem.children) {
-          const updatedParentItem = {
-            ...parentItem,
-            children: parentItem.children.filter(child => child.id !== itemId),
-          };
-
-          updatedHierarchy = updatedHierarchy.map(item => {
-            return item.id === parentId
-              ? updatedParentItem as HierarchyItem
-              : item
-          });
-        }
-      } else {
-        updatedHierarchy = updatedHierarchy.filter(i => i.id !== itemId);
-      }
+      const updatedHierarchy = removeItemFromHierarchy(tree, treeMap, item);
 
       return deleteHierarchyItemSuccess({ hierarchy: updatedHierarchy });
     }),
@@ -275,32 +254,6 @@ export const redirectToHierarchyItemAfterCreation$ = createEffect((
       }
 
       router.navigateByUrl(viewLink);
-    }),
-  );
-}, {
-  functional: true,
-  dispatch: false,
-});
-
-
-// We should move this to a service that watches for changes in the hierarchy state
-// Otherwise we will have to keep adding effects for every action that modifies the hierarchy
-export const saveToLocalStorage = createEffect((
-  $actions = inject(Actions),
-  store = inject(Store),
-) => {
-  return $actions.pipe(
-    ofType(
-      deleteHierarchyItemSuccess,
-      renameHierarchyItemSuccess,
-      addHierarchyItemSuccess,
-      addHierarchyItemSuccessAndRedirect,
-    ),
-    concatLatestFrom(() => [
-      store.select(selectTree),
-    ]),
-    tap(([_, tree]) => {
-      localStorage.setItem(treeStorageKey, JSON.stringify(tree));
     }),
   );
 }, {
