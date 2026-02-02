@@ -1,0 +1,54 @@
+<div class="new-task">
+  <div class="new-task__header">
+    <div class="new-task__header-title">
+      New Task
+    </div>
+
+    <div class="new-task__header-subtitle">
+      Fill in the details below to create a new task.
+    </div>
+  </div>
+
+  <div class="new-task__form">
+    <div class="new-task__form-group">
+      <div class="new-task__form-header">
+        Adding task to: <span class="new-task__form-header-view-name">{{ view()?.name }}</span>
+      </div>
+      <input
+        type="text"
+        id="task-name"
+        name="taskName"
+        placeholder="Name"
+        cuInput
+        cuAutoFocus
+        required
+        #taskNameInput
+      />
+    </div>
+
+
+    <div class="new-task__form-group">
+      <div class="new-task__form-header">
+        Description
+      </div>
+
+      <input
+        type="text"
+        id="description"
+        name="description"
+        cuInput
+        #descriptionInput
+      />
+    </div>
+
+    <div class="new-task__form-group new-task__form-group--actions">
+      <button
+        cuButton
+        cuButtonVariant="primary"
+        cuButtonSize="medium"
+        (click)="onCreateTask(taskNameInput.value, descriptionInput.value)">
+        Create
+      </button>
+    </div>
+  </div>
+</div>

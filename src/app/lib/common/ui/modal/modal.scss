@@ -1,0 +1,29 @@
+.cu-modal {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  background-color: var(--cu-background-main);
+  border-radius: var(--cu-radii-3);
+}
+
+.cu-modal__header {
+  position: relative;
+  margin-bottom: var(--cu-size-2);
+}
+
+.cu-modal__header-title {
+  color: var(--cu-content-secondary);
+}
+
+.cu-modal__header-close-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--cu-background-on-main);
+  border-radius: 50%;
+}
+
+.cu-modal__header-border {
+  border-bottom: 1px solid var(--cu-border-default);
+  margin: 0 calc(var(--cu-size-4) * -1);
+}

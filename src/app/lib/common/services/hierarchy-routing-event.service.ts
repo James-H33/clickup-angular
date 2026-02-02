@@ -15,7 +15,6 @@ export class HierarchyRoutingEventService {
   routeSnapshot = inject(ActivatedRoute);
   destroyRef = inject(DestroyRef);
 
-
  init(): void {
     this.router.events
       .pipe(

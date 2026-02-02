@@ -63,3 +63,8 @@ export const addHierarchyItemSuccessAndRedirect = createAction(
   '[Hierarchy] Add Hierarchy Item Success And Redirect',
   props<{ itemId: string, hierarchy: HierarchyItem[] }>()
 );
+
+export const updateHierarchy = createAction(
+  '[Hierarchy] Update Hierarchy',
+  props<{ hierarchy: HierarchyItem[] }>()
+);

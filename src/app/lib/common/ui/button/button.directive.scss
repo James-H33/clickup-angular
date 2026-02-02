@@ -7,6 +7,11 @@ button[cuButton] {
   border-radius: var(--cu-radii-2-5);
   cursor: pointer;
 
+  &[cuButtonSize="medium"] {
+    height: auto;
+    padding: 6px 10px;
+  }
+
   &[cuButtonSize="compact"] {
     height: auto;
     padding: 4px 6px;

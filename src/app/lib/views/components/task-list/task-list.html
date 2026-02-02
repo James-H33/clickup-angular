@@ -1,30 +1,36 @@
 <div class="task-list">
   <div class="header">
     <div
-      class="col col--first">
+      class="col col--first col--header">
       Name
     </div>
 
-    <div class="col">Start Date</div>
-    <div class="col">Due Date</div>
-    <div class="col">Status</div>
+    <div class="col col--header">Start Date</div>
+    <div class="col col--header">Due Date</div>
+    <div class="col col--header">Status</div>
+    <div class="col col--actions"></div>
   </div>
 
   <div class="body">
-    <div class="row">
-      <div
-        class="col col--first">
-        Design Homepage
-      </div>
+    @for (task of tasksForView(); track task.id) {
+      <div class="row">
+        <div
+          class="col col--first">
+          {{ task.name }}
+        </div>
 
-      <div class="col col--editable">2024-07-01</div>
-      <div class="col col--editable">2024-07-10</div>
-      <div class="col col--editable">In Progress</div>
-    </div>
+        <div class="col col--editable">{{ task.startDate }}</div>
+        <div class="col col--editable">{{ task.dueDate }}</div>
+        <div class="col col--editable">{{ task.status }}</div>
+        <div class="col col--actions">
+          <button cuButton>...</button>
+        </div>
+      </div>
+    }
 
     <div class="row row--last-row">
       <div class="col col--first">
-        <button cuButtonIcon>
+        <button cuButtonIcon (click)="openNewTaskModal(newTaskModal)">
           <fa-icon [icon]="faPlus"></fa-icon>
           <span>
             New Task
@@ -38,3 +44,14 @@
     </div>
   </div>
 </div>
+
+<ng-template #newTaskModal>
+  <cu-modal>
+    <div cuModalBody>
+      <cu-new-task
+       [view]="view()"
+       (createTask)="onCreateTask($event)">
+      </cu-new-task>
+    </div>
+  </cu-modal>
+</ng-template>

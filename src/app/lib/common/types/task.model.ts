@@ -1,4 +1,4 @@
-import { TaskStatus } from "./task-status.model";
+import { TaskStatuses } from "./task-statuses.enum";
 
 export interface Task {
   id: string;
@@ -6,6 +6,6 @@ export interface Task {
   description?: string;
   startDate?: number;
   dueDate?: number;
-  status: TaskStatus;
-  lists: string[];
+  status: TaskStatuses;
+  views: string[];
 }
