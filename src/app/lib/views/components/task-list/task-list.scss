@@ -4,6 +4,8 @@
   height: 100%;
   overflow: hidden;
 
+  --cu-task-row-background: rgb(255,255,255);
+  --cu-task-row-background-hover: rgb(252,252,252);
   --cu-task-list-row-height: 36px;
 }
 
@@ -24,8 +26,8 @@
   height: var(--cu-task-list-row-height);
   border-bottom: 1px solid var(--cu-border-default);
 
-  &:hover {
-    background-color: var(--cu-background-on-main);
+  &:hover .col {
+    background: var(--cu-task-row-background-hover);
   }
 }
 
@@ -51,9 +53,30 @@
     }
   }
 
+  &--actions {
+    justify-content: end;
+    width: 30px;
+  }
+
+  &--header {
+    &:hover {
+      background: linear-gradient(
+        270deg,
+        var(--cu-background-on-main) 0%,
+        var(--cu-task-row-background-hover) 100%
+      )
+    }
+  }
+
   &--first {
     left: 0;
     position: sticky;
     min-width: 150px;
+    z-index: 1;
+    background: var(--cu-task-row-background);
+
+    .row:hover & {
+      background: var(--cu-task-row-background-hover);
+    }
   }
 }

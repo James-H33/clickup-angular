@@ -6,4 +6,5 @@ export interface ViewItem {
   color: string;
   type: ViewType;
   parentId?: string;
+  taskIds: string[];
 }

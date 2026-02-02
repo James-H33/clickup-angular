@@ -1,0 +1,24 @@
+<div class="cu-modal">
+  <div class="cu-modal__header">
+    <div class="cu-modal__header-title">{{ title() }}</div>
+
+    <button
+      class="cu-modal__header-close-button"
+      cuButton
+      (click)="close()">
+      &times;
+    </button>
+  </div>
+
+  @if (title()?.length) {
+    <div class="cu-modal__header-border"></div>
+  }
+
+  <div class="cu-modal__body">
+    <ng-content select="[cuModalBody]"></ng-content>
+  </div>
+
+  <div class="cu-modal__footer">
+    <ng-content select="[cuModalFooter]"></ng-content>
+  </div>
+</div>

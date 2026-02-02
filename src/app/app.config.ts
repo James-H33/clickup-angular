@@ -8,6 +8,7 @@ import { provideEffects } from '@ngrx/effects';
 import { WorkspaceStoreModule } from './lib/common/store/workspace/workspace-store.module';
 import { HierarchyStoreModule } from '@common/store/hierarchy/hierarchy-store.module';
 import { DialogModule } from '@angular/cdk/dialog';
+import { TaskStoreModule } from '@common/store/task/task-store.module';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,8 +22,11 @@ export const appConfig: ApplicationConfig = {
 
     // Modules Imports
     importProvidersFrom([
+      // These should probably be moved to shell module?
       WorkspaceStoreModule,
       HierarchyStoreModule,
+      TaskStoreModule,
+
       DialogModule,
     ]),
   ]

@@ -57,7 +57,8 @@ export const createDummyView = (
     name: name || 'View 1',
     color: generateRandomColor(),
     type,
-    parentId
+    parentId,
+    taskIds: [],
   };
 }
 

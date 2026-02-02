@@ -1,4 +1,6 @@
+import { TaskStatuses } from "./task-statuses.enum";
+
 export interface TaskStatus {
   id: string;
-  name: string;
+  status: TaskStatuses;
 }
