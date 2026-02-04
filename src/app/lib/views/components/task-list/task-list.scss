@@ -4,8 +4,8 @@
   height: 100%;
   overflow: hidden;
 
-  --cu-task-row-background: rgb(255,255,255);
-  --cu-task-row-background-hover: rgb(252,252,252);
+  --cu-task-row-background: rgb(255, 255, 255);
+  --cu-task-row-background-hover: rgb(252, 252, 252);
   --cu-task-list-row-height: 36px;
 }
 
@@ -64,7 +64,7 @@
         270deg,
         var(--cu-background-on-main) 0%,
         var(--cu-task-row-background-hover) 100%
-      )
+      );
     }
   }
 
@@ -78,5 +78,44 @@
     .row:hover & {
       background: var(--cu-task-row-background-hover);
     }
+  }
+}
+
+.task-link {
+  text-decoration: none;
+  color: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:hover {
+    color: var(--cu-content-primary);
+    text-decoration: underline;
+  }
+}
+
+.task-name-tooltip {
+  background: #fff;
+  color: var(--cu-content-primary);
+  padding: 4px 8px;
+  border-radius: var(--cu-radii-2);
+  box-shadow: var(--cu-elevation-border-3);
+  position: relative;
+  font-size: 12px;
+  color: var(--cu-content-default);
+  max-width: 200px;
+
+  &::after {
+    width: 20px;
+    height: 10px;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    rotate: 180deg;
+    background: #fff;
+    content: '';
+    position: absolute;
+    left: calc(50% - 10px);
+    top: 100%;
   }
 }

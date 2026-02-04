@@ -10,6 +10,8 @@ import { ViewItem } from "@common/types/view-item.model";
 import { select, Store } from "@ngrx/store";
 import { selectAllTasksForViewId } from "@common/store/task/task.selectors";
 import { Task } from "@common/types/task.model";
+import { RouterLink } from "@angular/router";
+import { TooltipDirective } from "@common/ui/tooltip/tooltip.directive";
 
 @Component({
   selector: 'cu-task-list',
@@ -17,11 +19,13 @@ import { Task } from "@common/types/task.model";
   styleUrls: ['./task-list.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    RouterLink,
     ButtonModule,
     ButtonIconModule,
     FontAwesomeModule,
     Modal,
-    NewTaskComponent
+    NewTaskComponent,
+    TooltipDirective
   ]
 })
 export class TaskListComponent {
