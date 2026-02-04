@@ -1,7 +1,7 @@
 import { Task } from "@common/types/task.model";
 import { createFeature, createReducer } from "@ngrx/store";
 import { on } from "@ngrx/store";
-import { createTaskSuccess } from "../task/task.actions";
+import { createTaskSuccess, loadTasksForViewSuccess } from "../task/task.actions";
 
 interface TaskState {
   tasksMap: Record<string, Task>;
@@ -23,5 +23,15 @@ export const taskFeature = createFeature({
         }
       };
     }),
+
+    on(loadTasksForViewSuccess, (state, { tasksMap }) => {
+      return {
+        ...state,
+        tasksMap: {
+          ...state.tasksMap,
+          ...tasksMap
+        }
+      };
+    })
   )
 });

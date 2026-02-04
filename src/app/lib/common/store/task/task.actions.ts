@@ -14,3 +14,13 @@ export const createTaskSuccess = createAction(
   '[Task] Create Task Success',
   props<{ task: Task }>()
 );
+
+export const loadTasksForViewStart = createAction(
+  '[Task] Load Tasks For View Start',
+  props<{ viewId: string }>()
+);
+
+export const loadTasksForViewSuccess = createAction(
+  '[Task] Load Tasks For View Success',
+  props<{ tasksMap: Record<string, Task> }>()
+);

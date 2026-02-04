@@ -16,7 +16,17 @@
       <div class="row">
         <div
           class="col col--first">
-          {{ task.name }}
+            <a
+              class="task-link"
+              [routerLink]="['/task', task.id]"
+              cuTooltip
+              [cuTooltipTemplate]="tooltipTemplate">
+              {{ task.name }}
+            </a>
+
+            <ng-template #tooltipTemplate>
+              <div class="task-name-tooltip">{{ task.name }}</div>
+            </ng-template>
         </div>
 
         <div class="col col--editable">{{ task.startDate }}</div>
