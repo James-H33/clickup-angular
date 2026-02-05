@@ -24,3 +24,16 @@ export const loadTasksForViewSuccess = createAction(
   '[Task] Load Tasks For View Success',
   props<{ tasksMap: Record<string, Task> }>()
 );
+
+export const updateTaskStatusStart = createAction(
+  '[Task] Update Task Status Start',
+  props<{
+    taskId: string,
+    status: string
+  }>()
+);
+
+export const updateTaskStatusSuccess = createAction(
+  '[Task] Update Task Status Success',
+  props<{ task: Task }>()
+);

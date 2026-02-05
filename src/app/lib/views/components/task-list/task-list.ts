@@ -12,6 +12,7 @@ import { selectAllTasksForViewId } from "@common/store/task/task.selectors";
 import { Task } from "@common/types/task.model";
 import { RouterLink } from "@angular/router";
 import { TooltipDirective } from "@common/ui/tooltip/tooltip.directive";
+import { StatusComponent } from "@common/ui/status/status";
 
 @Component({
   selector: 'cu-task-list',
@@ -25,12 +26,17 @@ import { TooltipDirective } from "@common/ui/tooltip/tooltip.directive";
     FontAwesomeModule,
     Modal,
     NewTaskComponent,
-    TooltipDirective
+    TooltipDirective,
+    StatusComponent,
   ]
 })
 export class TaskListComponent {
   view = input<ViewItem>();
   createTask = output<any>();
+  statusChanged = output<{
+    taskId: string,
+    status: string
+  }>();
 
   dialog = inject(Dialog);
   store = inject(Store);
@@ -48,7 +54,7 @@ export class TaskListComponent {
   faPlus = faPlusSquare;
 
   openNewTaskModal(modalTemplate: any): void {
-    const dialogRef = this.dialog.open(modalTemplate, {
+    this.dialog.open(modalTemplate, {
       width: '475px',
     });
   }
@@ -56,5 +62,12 @@ export class TaskListComponent {
   onCreateTask(event: any): void {
     this.createTask.emit(event);
     this.dialog.closeAll();
+  }
+
+  onStatusChanged(task: Task, event: { status: string }): void {
+    this.statusChanged.emit({
+      taskId: task.id,
+      status: event.status
+    });
   }
 }

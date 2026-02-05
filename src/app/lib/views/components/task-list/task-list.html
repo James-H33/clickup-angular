@@ -1,10 +1,6 @@
 <div class="task-list">
   <div class="header">
-    <div
-      class="col col--first col--header">
-      Name
-    </div>
-
+    <div class="col col--first col--header">Name</div>
     <div class="col col--header">Start Date</div>
     <div class="col col--header">Due Date</div>
     <div class="col col--header">Status</div>
@@ -14,24 +10,32 @@
   <div class="body">
     @for (task of tasksForView(); track task.id) {
       <div class="row">
-        <div
-          class="col col--first">
-            <a
-              class="task-link"
-              [routerLink]="['/task', task.id]"
-              cuTooltip
-              [cuTooltipTemplate]="tooltipTemplate">
-              {{ task.name }}
-            </a>
+        <div class="col col--first">
+          <a
+            class="task-link"
+            [routerLink]="['/task', task.id]"
+            cuTooltip
+            [cuTooltipTemplate]="tooltipTemplate"
+          >
+            {{ task.name }}
+          </a>
 
-            <ng-template #tooltipTemplate>
-              <div class="task-name-tooltip">{{ task.name }}</div>
-            </ng-template>
+          <ng-template #tooltipTemplate>
+            <div class="task-name-tooltip">{{ task.name }}</div>
+          </ng-template>
         </div>
 
         <div class="col col--editable">{{ task.startDate }}</div>
+
         <div class="col col--editable">{{ task.dueDate }}</div>
-        <div class="col col--editable">{{ task.status }}</div>
+
+        <div class="col col--editable">
+          <cu-status
+            [status]="task.status"
+            (statusChanged)="onStatusChanged(task, $event)">
+          </cu-status>
+        </div>
+
         <div class="col col--actions">
           <button cuButton>...</button>
         </div>
@@ -42,9 +46,7 @@
       <div class="col col--first">
         <button cuButtonIcon (click)="openNewTaskModal(newTaskModal)">
           <fa-icon [icon]="faPlus"></fa-icon>
-          <span>
-            New Task
-          </span>
+          <span> New Task </span>
         </button>
       </div>
 
@@ -58,10 +60,7 @@
 <ng-template #newTaskModal>
   <cu-modal>
     <div cuModalBody>
-      <cu-new-task
-       [view]="view()"
-       (createTask)="onCreateTask($event)">
-      </cu-new-task>
+      <cu-new-task [view]="view()" (createTask)="onCreateTask($event)"> </cu-new-task>
     </div>
   </cu-modal>
 </ng-template>

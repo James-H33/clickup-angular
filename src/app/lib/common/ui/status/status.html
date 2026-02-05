@@ -1,0 +1,23 @@
+<cu-dropdown-menu #dropdownMenu>
+  <button
+    contextTrigger
+    cuButton
+    cuButtonSize="compact">
+    <span class="status-name">{{ currentStatusName() }}</span>
+  </button>
+
+  <div class="status-menu" contextMenu>
+    @for (s of allStatuses; track s.name) {
+      <div
+        class="status-menu__item"
+        [class.status-menu__item--selected]="s.key === status()"
+        (click)="setStatus(s.key)">
+        <span>{{ s.name }}</span>
+
+        @if(s.key === status()) {
+          <fa-icon [icon]="faCheck"></fa-icon>
+        }
+      </div>
+    }
+  </div>
+</cu-dropdown-menu>
