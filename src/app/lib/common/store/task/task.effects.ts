@@ -1,6 +1,6 @@
 import { inject } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { createTaskStart, createTaskSuccess, loadTasksForViewStart, loadTasksForViewSuccess } from "./task.actions";
+import { createTaskStart, createTaskSuccess, loadTasksForViewStart, loadTasksForViewSuccess, updateTaskStatusStart, updateTaskStatusSuccess } from "./task.actions";
 import { map, switchMap } from "rxjs/operators";
 import { FakeTaskService } from "@common/fake-services/fake-task.service";
 import { Store } from "@ngrx/store";
@@ -8,7 +8,6 @@ import { Store } from "@ngrx/store";
 export const createTask$ = createEffect(
   (
     actions$ = inject(Actions),
-    store = inject(Store),
     fakeTaskService = inject(FakeTaskService),
   ) => {
     return actions$.pipe(
@@ -41,4 +40,21 @@ export const loadTasksForView$ = createEffect(
           )
       })
     )
+}, { functional: true })
+
+export const updateTaskStatus$ = createEffect((
+  actions$ = inject(Actions),
+  fakeTaskService = inject(FakeTaskService),
+) => {
+  return actions$.pipe(
+    ofType(updateTaskStatusStart),
+    switchMap((action) => {
+      const { taskId, status } = action;
+
+      return fakeTaskService.updateTaskStatus(taskId, status)
+        .pipe(
+          map((task) => updateTaskStatusSuccess({ task }))
+        )
+    })
+  )
 }, { functional: true })

@@ -1,6 +1,7 @@
 <div class="list-view">
   <cu-task-list
     [view]="currentView() ?? undefined"
-    (createTask)="onCreateTask($event)">
+    (createTask)="onCreateTask($event)"
+    (statusChanged)="onStatusChanged($event)">
   </cu-task-list>
 </div>

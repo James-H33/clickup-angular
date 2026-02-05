@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, effect, inject } from "@angular/cor
 import { TaskListComponent } from "../components/task-list/task-list";
 import { Store } from "@ngrx/store";
 import { selectCurrentView } from "@common/store/hierarchy/hierarchy.selectors";
-import { createTaskStart, loadTasksForViewStart } from "@common/store/task/task.actions";
+import { createTaskStart, loadTasksForViewStart, updateTaskStatusStart } from "@common/store/task/task.actions";
 
 @Component({
   selector: 'cu-list-view',
@@ -39,6 +39,16 @@ export class ListViewComponent {
       name: event.name,
       viewId: event.viewId,
     }));
-    // Handle task creation logic here
+  }
+
+  onStatusChanged(event: { status: string, taskId: string }): void {
+    console.log('Status changed from ListViewComponent: ', event);
+
+    this.store.dispatch(
+      updateTaskStatusStart({
+        taskId: event.taskId,
+        status: event.status
+      })
+    );
   }
 }
