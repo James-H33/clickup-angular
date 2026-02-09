@@ -1,0 +1,10 @@
+.date-picker {
+
+}
+
+.date-picker__inputs {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  border-bottom: 1px solid var(--cu-border-default);
+}

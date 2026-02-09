@@ -25,9 +25,17 @@
           </ng-template>
         </div>
 
-        <div class="col col--editable">{{ task.startDate }}</div>
+        <div class="col col--editable">
+          <cu-date-picker-dropdown
+            [date]="task.startDate">
+          </cu-date-picker-dropdown>
+        </div>
 
-        <div class="col col--editable">{{ task.dueDate }}</div>
+        <div class="col col--editable">
+          <cu-date-picker-dropdown
+            [date]="task.dueDate">
+          </cu-date-picker-dropdown>
+        </div>
 
         <div class="col col--editable">
           <cu-status

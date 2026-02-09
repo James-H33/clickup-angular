@@ -1,0 +1,19 @@
+<div class="date-picker">
+  <div class="date-picker__inputs">
+    <input
+      type="text"
+      cuInput
+      class="date-picker__input"
+      [value]="date() | date: 'MM/dd/yyyy'">
+
+    <input
+      type="text"
+      cuInput
+      class="date-picker__input"
+      [value]="date() | date: 'hh:mm a'">
+  </div>
+
+  <div class="date-picker__calendar">
+    <cu-calendar></cu-calendar>
+  </div>
+</div>
