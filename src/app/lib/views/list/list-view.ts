@@ -42,8 +42,6 @@ export class ListViewComponent {
   }
 
   onStatusChanged(event: { status: string, taskId: string }): void {
-    console.log('Status changed from ListViewComponent: ', event);
-
     this.store.dispatch(
       updateTaskStatusStart({
         taskId: event.taskId,

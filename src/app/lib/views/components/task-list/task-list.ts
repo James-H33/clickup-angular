@@ -13,6 +13,7 @@ import { Task } from "@common/types/task.model";
 import { RouterLink } from "@angular/router";
 import { TooltipDirective } from "@common/ui/tooltip/tooltip.directive";
 import { StatusComponent } from "@common/ui/status/status";
+import { DatePickerDropdownComponent } from "@common/ui/date-picker-dropdown/date-picker-dropdown";
 
 @Component({
   selector: 'cu-task-list',
@@ -28,6 +29,7 @@ import { StatusComponent } from "@common/ui/status/status";
     NewTaskComponent,
     TooltipDirective,
     StatusComponent,
+    DatePickerDropdownComponent
   ]
 })
 export class TaskListComponent {

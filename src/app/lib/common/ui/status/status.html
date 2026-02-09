@@ -3,21 +3,46 @@
     contextTrigger
     cuButton
     cuButtonSize="compact">
-    <span class="status-name">{{ currentStatusName() }}</span>
+    @if (status() === statusKeyMap.TODO) {
+      <span
+        class="status-name status-name--dark">
+        {{ currentStatusName() }}
+      </span>
+    } @else {
+      <span
+        class="status-name"
+        [style.--status-text-color]="currentStatusColor()">
+        {{ currentStatusName() }}
+      </span>
+    }
   </button>
 
   <div class="status-menu" contextMenu>
     @for (s of allStatuses; track s.name) {
-      <div
-        class="status-menu__item"
-        [class.status-menu__item--selected]="s.key === status()"
-        (click)="setStatus(s.key)">
-        <span>{{ s.name }}</span>
+       @if (s.key === statusKeyMap.TODO) {
+        <div
+          class="status-menu__item status-menu__item--dark"
+          [class.status-menu__item--selected]="s.key === status()"
+          (click)="setStatus(s.key)">
+          <span>{{ s.name }}</span>
 
-        @if(s.key === status()) {
-          <fa-icon [icon]="faCheck"></fa-icon>
-        }
-      </div>
+          @if(s.key === status()) {
+            <fa-icon [icon]="faCheck"></fa-icon>
+          }
+        </div>
+      } @else {
+        <div
+          class="status-menu__item"
+          [class.status-menu__item--selected]="s.key === status()"
+          [style.--status-text-color]="statusColorMap[s.key]"
+          (click)="setStatus(s.key)">
+          <span>{{ s.name }}</span>
+
+          @if(s.key === status()) {
+            <fa-icon [icon]="faCheck"></fa-icon>
+          }
+        </div>
+      }
     }
   </div>
 </cu-dropdown-menu>

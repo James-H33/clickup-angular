@@ -1,5 +1,11 @@
 .status-name {
   text-transform: uppercase;
+  --status-text-color: var(--cu-content-default);
+  color: var(--status-text-color);
+
+  &--dark {
+    --status-text-color: var(--cu-content-dark);
+  }
 }
 
 .status-menu {
@@ -10,6 +16,8 @@
 }
 
 .status-menu__item {
+  --status-text-color: transparent;
+
   display: flex;
   justify-content: space-between;
   padding: 6px 10px;
@@ -18,9 +26,14 @@
   font-weight: 300;
   text-transform: uppercase;
   border-radius: var(--cu-radii-3);
+  color: var(--status-text-color);
 
   &--selected {
     font-weight: 500;
+  }
+
+  &--dark {
+    --status-text-color: var(--cu-content-dark);
   }
 
   &:hover {

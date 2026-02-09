@@ -1,0 +1,33 @@
+<div class="calendar">
+  <div class="calendar__header">
+    <div class="calendar__header-left">
+      {{currentMonth() | date:'MMMM'}} {{currentYear() | date:'yyyy'}}
+    </div>
+
+    <div class="calendar__header-right">
+      ---
+    </div>
+  </div>
+
+  <div class="calendar__body">
+    <div class="calendar__weekdays">
+      <div class="calendar__weekday">S</div>
+      <div class="calendar__weekday">M</div>
+      <div class="calendar__weekday">T</div>
+      <div class="calendar__weekday">W</div>
+      <div class="calendar__weekday">T</div>
+      <div class="calendar__weekday">F</div>
+      <div class="calendar__weekday">S</div>
+    </div>
+
+    @for (week of weeks(); track week[0].toString()) {
+      <div class="calendar__days">
+        @for (day of week; track day.toString()) {
+          <div class="calendar__day">
+            {{day.date()}}
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
